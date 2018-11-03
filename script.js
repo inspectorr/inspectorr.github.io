@@ -6,6 +6,115 @@ canvas.style.marginLeft = -canvas.width / 2 + 'px';
 
 let ctx = canvas.getContext('2d');
 
+document.addEventListener('mousedown', function (event) {
+    event.preventDefault();
+});
+
+canvas.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+});
+
+let canvasCoords = canvas.getBoundingClientRect();
+
+let canvasClientX = canvas.width / 2;
+let canvasClientY = canvas.height / 2;
+
+canvas.addEventListener('mousemove', function (event) {
+    canvasClientX = event.clientX - canvasCoords.left;
+    canvasClientY = event.clientY - canvasCoords.top;
+});
+
+class Shot {
+    constructor(x, y, width, height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.hit = false;
+        this.out = false;
+    }
+
+    static get speed() {
+        return 20;
+    }
+}
+
+class Asteroid {
+    constructor(x, y, size, speedX, speedY) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.approxRadius = size.reduce((sum, current) => sum + current) / size.length;
+        this.shooted = false;
+        this.out = false;
+    }
+}
+
+function sqrt(num) {
+    return Math.sqrt.call(Math, num);
+}
+
+function pow(num, base) {
+    return Math.pow.apply(Math, num, base);
+}
+
+function randomInt(min, max) {
+    return Math.floor(min + Math.random() * (max - min + 1));
+}
+
+function randomSign() {
+    return [-1, 1][randomInt(0, 1)];
+}
+
+let currentShots = [];
+canvas.addEventListener('click', function (event) {
+    let x = event.clientX - canvasCoords.left;
+    let y = event.clientY - canvasCoords.top;
+    let shot = new Shot(x, y, 10, 40);
+    currentShots.push(shot);
+});
+
+let currentAsteroids = [];
+let minSideSize = 20;
+let maxSideSize = 30;
+let maxSpeedY = 5;
+let minSpeedY = 1;
+let maxSpeedX = 0.01;
+let minSpeedX = 0.003;
+let angs = 20;
+let asterFreq = randomInt(1000, 3000);
+let asteroidGenerationTimer;
+
+function lauchAsteroids() {
+    asteroidGenerationTimer = setTimeout(function launch() {
+        let x = randomInt(0, canvas.width);
+        let y = -(maxSideSize + minSideSize);
+        let size = [];
+        for (let i = 0; i < angs - 1; i++) {
+            size.push(randomInt(minSideSize, maxSideSize));
+        };
+        let speedX = randomSign() * randomInt(minSpeedX, maxSpeedX);
+        let speedY = randomInt(minSpeedY, maxSpeedY);
+        currentAsteroids.push(new Asteroid(x, y, size, speedX, speedY));
+        let asterFreq = randomInt(1500, 2500);
+        asteroidGenerationTimer = setTimeout(launch, asterFreq);
+    }, asterFreq);
+}
+
+//function stopAsteroids() {
+//    while
+//    if (asteroidGenerationTimer) {
+//        clearTimeout(asteroidGenerationTimer);
+//    };
+//}
+
+lauchAsteroids();
+
+let asteroidScore = 0;
+let currentExplodes = [];
+
 function draw(time) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -15,25 +124,71 @@ function draw(time) {
         ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`;
         ctx.fillRect(Math.random() * canvas.width,
             Math.random() * canvas.height,
-            1, 1);
+            2, 2);
     };
     ctx.restore();
 
     // выстрелы
-    for (let shot of currentShots) {
-        let now = performance.now();
+    for (let i = 0; i < currentShots.length; i++) {
+        let shot = currentShots[i];
         ctx.save();
         ctx.translate(shot.x, shot.y);
-        shot.y -= (now - time) * 5;
+        shot.y -= Shot.speed;
         let laser = ctx.createLinearGradient(-5, 0, 5, 0);
         laser.addColorStop(0, '#F00');
         laser.addColorStop(0.2, '#FFF');
         laser.addColorStop(0.8, '#FFF');
         laser.addColorStop(1, '#F00');
         ctx.fillStyle = laser;
-        ctx.fillRect(-5, -20, 10, 40);
+        ctx.fillRect(-shot.width / 2, -shot.height / 2, shot.width, shot.height);
         ctx.restore();
-    }
+        // проверка на вылет
+        if (shot.y + shot.height < 0) shot.out = true;
+    };
+
+    // астероиды
+    for (let i = 0; i < currentAsteroids.length; i++) {
+        let asteroid = currentAsteroids[i];
+        ctx.save();
+        asteroid.y += asteroid.speedY;
+        asteroid.x += asteroid.speedX;
+        ctx.translate(asteroid.x, asteroid.y);
+        ctx.fillStyle = '#aa0';
+        ctx.beginPath();
+        ctx.moveTo(-asteroid.size[0], 0);
+        for (let k = 1; k < asteroid.size.length; k++) {
+            ctx.rotate(Math.PI / (angs / 2));
+            ctx.lineTo(-asteroid.size[k], 0);
+        };
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        let r = asteroid.approxRadius;
+        // проверка на вылет
+        if (asteroid.y + r > canvas.height) {
+            asteroid.out = true;
+        };
+        // проверка на попадание    
+        for (let j = 0; j < currentShots.length; j++) {
+            if (currentShots[j].x >= asteroid.x - r &&
+                currentShots[j].x <= asteroid.x + r &&
+                currentShots[j].y >= asteroid.y - r &&
+                currentShots[j].y <= asteroid.y + r) {
+                currentShots[j].hit = true;
+                asteroid.shooted = true;
+                asteroidScore++;
+            };
+        };
+    };
+
+    currentAsteroids.forEach(function (ast, i, asts) {
+        if (ast.shooted || ast.out) asts.splice(i--, 1);
+    });
+
+    currentShots.forEach(function (shot, i, shots) {
+        if (shot.hit || shot.out) shots.splice(i--, 1);
+    });
 
     ctx.save(); // звездолет
     let xOff = -1 + Math.random() * 2;
@@ -117,32 +272,5 @@ function draw(time) {
 
     requestAnimationFrame(draw);
 }
-
-let canvasCoords = canvas.getBoundingClientRect();
-
-let canvasClientX = canvas.width / 2;
-let canvasClientY = canvas.height / 2;
-
-canvas.addEventListener('mousemove', function (event) {
-    canvasClientX = event.clientX - canvasCoords.left;
-    canvasClientY = event.clientY - canvasCoords.top;
-});
-
-let currentShots = [];
-
-class Shot {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-canvas.addEventListener('click', function (event) {
-    let x = event.clientX - canvasCoords.left;
-    let y = event.clientY - canvasCoords.top;
-    let shot = new Shot(x, y);
-    currentShots.push(shot);
-    setTimeout(() => currentShots.shift(), 1500);
-})
 
 requestAnimationFrame(draw);
