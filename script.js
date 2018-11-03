@@ -166,7 +166,7 @@ function draw(time) {
 
         let r = asteroid.approxRadius;
         // проверка на вылет
-        if (asteroid.y + r > canvas.height) {
+        if (asteroid.y - r > canvas.height) {
             asteroid.out = true;
         };
         // проверка на попадание    
