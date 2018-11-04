@@ -99,17 +99,19 @@ function move(event) {
 }
 
 document.addEventListener('touchstart', function (event) {
-    if (event.touches.length >= 2) return;
+    if (event.targetTouches.length == 2) return;
     lastposX = event.targetTouches[0].clientX;
     dX = 0;
-//    move(event);
+    //    move(event);
 }, false);
 
-document.addEventListener('mousemove', move, {
-    passive: false
+document.addEventListener('mousemove', function (event) {
+    if (event.targetTouches.length == 2) return;
+    move(event);
 });
 
 document.addEventListener('touchmove', function (event) {
+    if (event.targetTouches.length == 2) return;
     move(event);
 }, {
     passive: false
@@ -146,7 +148,7 @@ document.addEventListener('touchstart', function (event) {
     if (event.touches) {
         if (event.touches.length == 2) {
             fire();
-//            document.dispatchEvent(new Event('click'));
+            //            document.dispatchEvent(new Event('click'));
         };
     };
 }, false);
@@ -167,9 +169,9 @@ document.addEventListener('pointerup', function (event) {
 
 document.addEventListener('click', function (event) {
     event.preventDefault();
-//    if (event.touches) {
-//        if (event.touches.length == 2) fire();
-//    };
+    //    if (event.touches) {
+    //        if (event.touches.length == 2) fire();
+    //    };
     if (event.clientX && event.clientY) fire();
 }, false);
 
