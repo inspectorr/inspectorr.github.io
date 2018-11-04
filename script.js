@@ -120,7 +120,7 @@ if (mobile) {
     }, false);
     document.addEventListener('touchend', function (event) {
         event.preventDefault();
-    });
+    }, false);
     //    document.addEventListener('click', function (event) {
     //        if (event.touches.length >= 2) {
     //            fire();
