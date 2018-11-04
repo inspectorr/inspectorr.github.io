@@ -146,7 +146,7 @@ if (mobile) {
         if (event.touches) {
             event.preventDefault();
             if (event.touches.length >= 2) {
-                event.target.click();
+                fire();
             };
         };
     }, false);
@@ -163,7 +163,6 @@ if (mobile) {
         event.preventDefault();
     });
     document.addEventListener('click', function (event) {
-        fire();
         event.preventDefault();
     }, false);
 } 
@@ -171,7 +170,7 @@ if (mobile) {
 //    document.addEventListener('click', fire, false);
 //}
 
-setTimeout(() => fire(), 3000);
+//setTimeout(() => fire(), 3000);
 
 class Asteroid {
     constructor(x, y, size, speedX, speedY) {
