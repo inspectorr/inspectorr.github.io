@@ -37,10 +37,6 @@ document.addEventListener('mousedown', function (event) {
     event.preventDefault();
 });
 
-document.addEventListener('dblclick', function (event) {
-
-});
-
 canvas.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 });
@@ -117,7 +113,7 @@ function fire(event) {
 if (mobile) {
     document.addEventListener('touchend', function (event) {
         event.preventDefault();
-//        event.target.click();
+        event.target.click();
     }, false);
 //    document.addEventListener('click', function (event) {
 //        if (event.touches.length >= 2) {
