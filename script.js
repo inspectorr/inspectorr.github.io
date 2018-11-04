@@ -1,6 +1,9 @@
 'use strict';
 
 let mobile = !!~navigator.userAgent.indexOf('Mobile');
+if (mobile) {
+    document.getElementById('version').style.color = 'rgba(150, 150, 150, 0.1)';
+}
 
 setInterval(() => console.log(`Aseroids: ${currentAsteroids.length}`), 1000);
 
@@ -51,8 +54,9 @@ function move(event) {
         eventX = event.clientX;
         eventY = event.clientY;
     } else if (event.targetTouches) {
-        eventX = event.targetTouches[0].clientX;
-        eventY = event.targetTouches[0].clientY + -clientHeight / 7;
+        eventX = event.targetTouches[0].clientX + -clientHeight / 6; 
+        eventY = event.targetTouches[0].clientY + -clientHeight / 6;
+
     };
     player.x = eventX;
     player.y = eventY;
@@ -86,16 +90,16 @@ class Shot {
 }
 
 function fire(event) {
-    let eventX, eventY;
-    if (event.clientX && event.clientY) {
-        eventX = event.clientX;
-        eventY = event.clientY;
-    } else if (event.targetTouches) {
-        eventX = event.targetTouches[0].clientX;
-        eventY = event.targetTouches[0].clientY + -clientHeight / 7;
-    };
-    player.y = eventY - canvasCoords.top;
-    player.x = eventX - canvasCoords.left;
+//    let eventX, eventY;
+//    if (event.clientX && event.clientY) {
+//        eventX = event.clientX;
+//        eventY = event.clientY;
+//    } else if (event.targetTouches) {
+//        eventX = event.targetTouches[0].clientX + -clientHeight / 6;
+//        eventY = event.targetTouches[0].clientY + -clientHeight / 6;
+//    };
+//    player.y = eventY - canvasCoords.top;
+//    player.x = eventX - canvasCoords.left;
     if (event.target != canvas) {
         if (event.clientX > clientWidth / 2) {
             x = canvas.width;
@@ -108,11 +112,12 @@ function fire(event) {
 if (mobile) {
     document.addEventListener('touchend', function (event) {
         event.preventDefault();
-        event.target.click();
+//        event.target.click();
     }, false);
-    document.addEventListener('touchstart', function (event) {
-        if (event.targetTouches.length < 2) return;
-        event.target.click();        
+    document.addEventListener('click', function (event) {
+        if (event.touches.length >= 2) {
+            fire();
+        };
     });
 } else {
     document.addEventListener('click', fire, false);
