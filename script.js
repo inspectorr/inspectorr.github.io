@@ -156,13 +156,17 @@ function fire(event) {
 //        };
 //    };
 //}, false);
-// suka davay
+// suka davay sdsdsdsd  
 
 document.addEventListener('touchend', function (event) {
-    if (event.targetTouches.length == 2) return;
+    event.preventDefault();
+    if (event.targetTouches.length == 2) {
+        event.target.click();
+        return;
+    };
     lastposX = player.x;
     dX = 0;
-    event.preventDefault();
+    
 }, false);
 
 document.addEventListener('pointermove', function (event) {
@@ -176,7 +180,10 @@ document.addEventListener('pointerup', function (event) {
 document.addEventListener('click', function (event) {
     event.preventDefault();
         if (event.touches) {
-            if (event.touches.length == 2) return;
+            if (event.touches.length == 2) {
+                fire();
+                return;
+            }
         };
     if (event.clientX && event.clientY) fire();
 }, false);
