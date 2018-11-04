@@ -144,7 +144,8 @@ document.addEventListener('touchstart', function (event) {
     event.preventDefault();
     if (event.touches) {
         if (event.touches.length == 2) {
-            document.dispatchEvent(new Event('click'));
+            fire();
+//            document.dispatchEvent(new Event('click'));
         };
     };
 }, false);
@@ -165,9 +166,9 @@ document.addEventListener('pointerup', function (event) {
 
 document.addEventListener('click', function (event) {
     event.preventDefault();
-    if (event.touches) {
-        if (event.touches.length == 2) fire();
-    };
+//    if (event.touches) {
+//        if (event.touches.length == 2) fire();
+//    };
     if (event.clientX && event.clientY) fire();
 }, false);
 
