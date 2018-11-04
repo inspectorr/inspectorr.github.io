@@ -379,7 +379,8 @@ function maingame(time) {
     if (player.lives <= 0) {
         xScale = 3, yScale = 3;
         animation = requestAnimationFrame(gameover);
-        setTimeout(NEWGAME, 2000);
+        setTimeout(() => location.reload(), 2000);
+//        setTimeout(NEWGAME, 2000);
         return;
     }
     animation = requestAnimationFrame(maingame);
