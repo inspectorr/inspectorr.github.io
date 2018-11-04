@@ -119,10 +119,16 @@ if (mobile) {
                 fire();
             };
         };
-    }, false);
+    });
     document.addEventListener('touchend', function (event) {
         event.preventDefault();
-    }, false);
+    });
+    document.addEventListener('pointermove', function (event) {
+        event.preventDefault();
+    });
+    document.addEventListener('pointerup', function (event) {
+        event.preventDefault();
+    });
     //    document.addEventListener('click', function (event) {
     //        if (event.touches.length >= 2) {
     //            fire();
