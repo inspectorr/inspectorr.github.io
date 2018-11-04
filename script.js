@@ -87,9 +87,9 @@ function move(event) {
         eventY = event.targetTouches[0].clientY + -clientHeight / 6;
     };
     player.y = eventY - canvasCoords.top;
-    
+
     player.x -= canvasCoords.left;
-    
+
     if (event.target != canvas) {
         if (eventX > clientWidth / 2) {
             player.x = canvas.width;
@@ -141,33 +141,35 @@ function fire(event) {
 }
 
 
-if (mobile) {
-    document.addEventListener('touchstart', function (event) {
-        if (event.touches) {
-            event.preventDefault();
-            if (event.touches.length >= 2) {
-                fire();
-            };
-        };
-    }, false);
 
-    document.addEventListener('touchend', function (event) {
-//        lastposX = eve;
-//        dX = 0; 
+document.addEventListener('touchstart', function (event) {
+    if (event.touches) {
         event.preventDefault();
-    });
-    document.addEventListener('pointermove', function (event) {
-        event.preventDefault();
-    });
-    document.addEventListener('pointerup', function (event) {
-        event.preventDefault();
-    });
-    document.addEventListener('click', function (event) {
-        event.preventDefault();
-    }, false);
-} else {
-    document.addEventListener('click', fire, false);
-}
+        if (event.touches.length >= 2) {
+            fire();
+        };
+    };
+}, false);
+
+document.addEventListener('touchend', function (event) {
+    //        lastposX = eve;
+    //        dX = 0; 
+    if (target.targetTouches.length < 2) return;
+    event.preventDefault();
+    event.target.click();
+}, false);
+document.addEventListener('pointermove', function (event) {
+    event.preventDefault();
+});
+document.addEventListener('pointerup', function (event) {
+    event.preventDefault();
+});
+//    document.addEventListener('click', function (event) {
+//        event.preventDefault();
+//    }, false);
+
+if (!mobile) document.addEventListener('click', fire, false);
+
 
 //setTimeout(() => fire(), 3000);
 
