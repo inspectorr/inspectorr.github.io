@@ -152,7 +152,7 @@ if (mobile) {
     }, false);
 
     document.addEventListener('touchend', function (event) {
-        lastposX = undefined;
+//        lastposX = eve;
 //        dX = 0; 
         event.preventDefault();
     });
