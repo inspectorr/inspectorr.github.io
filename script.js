@@ -144,7 +144,7 @@ document.addEventListener('touchstart', function (event) {
     event.preventDefault();
     if (event.touches) {
         if (event.touches.length == 2) {
-            return;
+            document.click();
         };
     };
 }, false);
@@ -153,7 +153,7 @@ document.addEventListener('touchend', function (event) {
     lastposX = player.x;
     dX = 0;
     event.preventDefault();
-    event.target.click();
+
 }, false);
 document.addEventListener('pointermove', function (event) {
     event.preventDefault();
