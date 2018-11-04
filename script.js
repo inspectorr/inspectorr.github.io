@@ -80,7 +80,6 @@ function move(event) {
         eventY = event.clientY;
         player.x = eventX;
     } else if (event.targetTouches) {
-        if (event.targetTouches.length >= 2) return;
         dX = lastposX - event.targetTouches[0].clientX;
         player.x += dX;
         lastposX = event.targetTouches[0].clientX;
@@ -118,7 +117,6 @@ document.addEventListener('mousemove', function (event) {
 document.addEventListener('touchmove', function (event) {
     if (event.targetTouches.length == 2) return;
     move(event);
-
 }, {
     passive: false
 });
