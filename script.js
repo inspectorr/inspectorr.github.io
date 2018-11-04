@@ -120,8 +120,10 @@ if (mobile) {
 //            fire();
 //        };
 //    });
+} else {
+    document.addEventListener('click', fire, false);
 }
-document.addEventListener('click', fire, false);
+
 
 
     //setTimeout(() => {
