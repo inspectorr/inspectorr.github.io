@@ -45,17 +45,17 @@ canvas.addEventListener('contextmenu', function (event) {
 let canvasCoords = canvas.getBoundingClientRect();
 
 function move(event) {
-    if (event.touches) {
-        if (event.touches.length >= 2) {
-            document.dispatchEvent(new Event('click'));    
-        };
-    };
+    //    if (event.touches) {
+    //        if (event.touches.length >= 2) {
+    //            document.dispatchEvent(new Event('click'));    
+    //        };
+    //    };
     let eventX, eventY;
     if (event.clientX && event.clientY) {
         eventX = event.clientX;
         eventY = event.clientY;
     } else if (event.targetTouches) {
-        eventX = event.targetTouches[0].clientX;// + -clientHeight / 6; 
+        eventX = event.targetTouches[0].clientX; // + -clientHeight / 6; 
         eventY = event.targetTouches[0].clientY + -clientHeight / 6;
 
     };
@@ -91,51 +91,57 @@ class Shot {
 }
 
 function fire(event) {
-//    let eventX, eventY;
-//    if (event.clientX && event.clientY) {
-//        eventX = event.clientX;
-//        eventY = event.clientY;
-//    } else if (event.targetTouches) {
-//        eventX = event.targetTouches[0].clientX + -clientHeight / 6;
-//        eventY = event.targetTouches[0].clientY + -clientHeight / 6;
-//    };
-//    player.y = eventY - canvasCoords.top;
-//    player.x = eventX - canvasCoords.left;
-//    if (event.target != canvas) {
-//        if (event.clientX > clientWidth / 2) {
-//            x = canvas.width;
-//        } else x = 0;
-//    };
+    //    let eventX, eventY;
+    //    if (event.clientX && event.clientY) {
+    //        eventX = event.clientX;
+    //        eventY = event.clientY;
+    //    } else if (event.targetTouches) {
+    //        eventX = event.targetTouches[0].clientX + -clientHeight / 6;
+    //        eventY = event.targetTouches[0].clientY + -clientHeight / 6;
+    //    };
+    //    player.y = eventY - canvasCoords.top;
+    //    player.x = eventX - canvasCoords.left;
+    //    if (event.target != canvas) {
+    //        if (event.clientX > clientWidth / 2) {
+    //            x = canvas.width;
+    //        } else x = 0;
+    //    };
     let shot = new Shot(player.x, player.y, 10, 40);
     currentShots.push(shot);
 }
 
 if (mobile) {
+    document.addEventListener('touchstart', function (event) {
+        if (event.touches) {
+            if (event.touches.length >= 2) {
+                fire();
+            };
+        };
+    }, false);
     document.addEventListener('touchend', function (event) {
         event.preventDefault();
-        event.target.click();
-    }, false);
-//    document.addEventListener('click', function (event) {
-//        if (event.touches.length >= 2) {
-//            fire();
-//        };
-//    });
+    });
+    //    document.addEventListener('click', function (event) {
+    //        if (event.touches.length >= 2) {
+    //            fire();
+    //        };
+    //    });
 } else {
     document.addEventListener('click', fire, false);
 }
 
 
 
-    //setTimeout(() => {
-    //    console.log('touch1');
-    //    let event = new Event('touchstart');
-    //    event.targetTouches = [undefined, undefined];
-    //    event.targetTouches[1] = {
-    //        clientX: player.x - 100,
-    //        clientY: player.y
-    //    };
-    //    document.dispatchEvent(event);
-    //}, 1000)
+//setTimeout(() => {
+//    console.log('touch1');
+//    let event = new Event('touchstart');
+//    event.targetTouches = [undefined, undefined];
+//    event.targetTouches[1] = {
+//        clientX: player.x - 100,
+//        clientY: player.y
+//    };
+//    document.dispatchEvent(event);
+//}, 1000)
 
 class Asteroid {
     constructor(x, y, size, speedX, speedY) {
