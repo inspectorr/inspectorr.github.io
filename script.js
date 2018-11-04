@@ -46,6 +46,7 @@ let canvasCoords = canvas.getBoundingClientRect();
 
 function move(event) {
     event.preventDefault();
+    event.stopPropagation();
     //    if (event.touches) {
     //        if (event.touches.length >= 2) {
     //            document.dispatchEvent(new Event('click'));    
