@@ -41,6 +41,7 @@ canvas.addEventListener('contextmenu', function (event) {
 let canvasCoords = canvas.getBoundingClientRect();
 let canvasClientX = canvas.width / 2;
 let canvasClientY = 2 * canvas.height / 3;
+
 function move(event) {
     let eventX, eventY;
     if (event.clientX && event.clientY) {
@@ -59,9 +60,10 @@ function move(event) {
     };
     canvasClientX = eventX - canvasCoords.left;
 }
+
 document.addEventListener('mousemove', move, false);
 document.addEventListener('touchstart', move, false);
-document.addEventListener('touchsmove', move, false);
+document.addEventListener('touchmove', move, false);
 
 class Shot {
     constructor(x, y, width, height) {
