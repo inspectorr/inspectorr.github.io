@@ -49,6 +49,10 @@ canvas.addEventListener('contextmenu', function (event) {
 let canvasCoords = canvas.getBoundingClientRect();
 
 function move(event) {
+    if (event.touches >= 2) {
+        document.dispatchEvent('click');    
+    };
+    
     let eventX, eventY;
     if (event.clientX && event.clientY) {
         eventX = event.clientX;
@@ -102,8 +106,8 @@ function fire(event) {
 //    player.x = eventX - canvasCoords.left;
     if (event.target != canvas) {
         if (event.clientX > clientWidth / 2) {
-            x = canvas.width;
-        } else x = 0;
+            player.x = canvas.width;
+        } else player.x = 0;
     };
     let shot = new Shot(player.x, player.y, 10, 40);
     currentShots.push(shot);
@@ -114,14 +118,14 @@ if (mobile) {
         event.preventDefault();
 //        event.target.click();
     }, false);
-    document.addEventListener('click', function (event) {
-        if (event.touches.length >= 2) {
-            fire();
-        };
-    });
-} else {
-    document.addEventListener('click', fire, false);
-};
+//    document.addEventListener('click', function (event) {
+//        if (event.touches.length >= 2) {
+//            fire();
+//        };
+//    });
+}
+document.addEventListener('click', fire, false);
+
 
     //setTimeout(() => {
     //    console.log('touch1');
