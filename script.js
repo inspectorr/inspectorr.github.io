@@ -144,7 +144,7 @@ document.addEventListener('touchstart', function (event) {
     event.preventDefault();
     if (event.touches) {
         if (event.touches.length == 2) {
-            document.click();
+            document.dispatchEvent(new Event('click'));
         };
     };
 }, false);
@@ -153,11 +153,12 @@ document.addEventListener('touchend', function (event) {
     lastposX = player.x;
     dX = 0;
     event.preventDefault();
-
 }, false);
+
 document.addEventListener('pointermove', function (event) {
     event.preventDefault();
 });
+
 document.addEventListener('pointerup', function (event) {
     event.preventDefault();
 });
