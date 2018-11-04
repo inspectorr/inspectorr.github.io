@@ -4,6 +4,7 @@ body {
     background-color: aliceblue;
     text-align: center;
     touch-action: none;
+    -webkit-touch-callout: none;
 }
 
 h1 {

@@ -73,7 +73,7 @@ function move(event) {
     player.x = eventX - canvasCoords.left;
 }
 
-document.addEventListener('mousemove', move, false);
+document.addEventListener('mousemove', move, {passive: false});
 document.addEventListener('touchstart', move, false);
 document.addEventListener('touchmove', move, false);
 
