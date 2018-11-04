@@ -99,6 +99,7 @@ function move(event) {
 }
 
 document.addEventListener('touchstart', function (event) {
+    if (event.touches.length >= 2) return;
     lastposX = event.targetTouches[0].clientX;
     dX = 0;
     move(event);
