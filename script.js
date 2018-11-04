@@ -49,16 +49,17 @@ canvas.addEventListener('contextmenu', function (event) {
 let canvasCoords = canvas.getBoundingClientRect();
 
 function move(event) {
-    if (event.touches.length >= 2) {
-        document.dispatchEvent('click');    
+    if (event.touches) {
+        if (event.touches.length >= 2) {
+            document.dispatchEvent(new Event('click'));    
+        };
     };
-    
     let eventX, eventY;
     if (event.clientX && event.clientY) {
         eventX = event.clientX;
         eventY = event.clientY;
     } else if (event.targetTouches) {
-        eventX = event.targetTouches[0].clientX + -clientHeight / 6; 
+        eventX = event.targetTouches[0].clientX;// + -clientHeight / 6; 
         eventY = event.targetTouches[0].clientY + -clientHeight / 6;
 
     };
@@ -104,11 +105,11 @@ function fire(event) {
 //    };
 //    player.y = eventY - canvasCoords.top;
 //    player.x = eventX - canvasCoords.left;
-    if (event.target != canvas) {
-        if (event.clientX > clientWidth / 2) {
-            player.x = canvas.width;
-        } else player.x = 0;
-    };
+//    if (event.target != canvas) {
+//        if (event.clientX > clientWidth / 2) {
+//            x = canvas.width;
+//        } else x = 0;
+//    };
     let shot = new Shot(player.x, player.y, 10, 40);
     currentShots.push(shot);
 }
