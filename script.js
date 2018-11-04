@@ -104,7 +104,7 @@ document.addEventListener('touchstart', function (event) {
     move(event);
 }, false);
 
-if (!mobile) document.addEventListener('mousemove', move, {
+document.addEventListener('mousemove', move, {
     passive: false
 });
 
@@ -165,10 +165,9 @@ if (mobile) {
     document.addEventListener('click', function (event) {
         event.preventDefault();
     }, false);
-} 
-//else {
-//    document.addEventListener('click', fire, false);
-//}
+} else {
+    document.addEventListener('click', fire, false);
+}
 
 //setTimeout(() => fire(), 3000);
 
