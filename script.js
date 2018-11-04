@@ -146,7 +146,7 @@ if (mobile) {
         if (event.touches) {
             event.preventDefault();
             if (event.touches.length >= 2) {
-                fire();
+                fire(event);
             };
         };
     }, false);
@@ -162,10 +162,16 @@ if (mobile) {
     document.addEventListener('pointerup', function (event) {
         event.preventDefault();
     });
-    
-} else {
-    document.addEventListener('click', fire, false);
-}
+    document.addEventListener('click', function (event) {
+        fire();
+        event.preventDefault();
+    }, false);
+} 
+//else {
+//    document.addEventListener('click', fire, false);
+//}
+
+setTimeout(() => fire(), 3000);
 
 class Asteroid {
     constructor(x, y, size, speedX, speedY) {
@@ -367,7 +373,7 @@ function maingame(time) {
     let xOff = -1 + Math.random() * 2;
     let yOff = -2 + Math.random() * 4;
 
-    ctx.translate(player.x + xOff, player.y + yOff)
+    ctx.translate(player.x + xOff, player.y + yOff);
 
     ctx.save(); // корпус
     let corpRadGrad = ctx.createRadialGradient(0, -10, 15, 0, -10, 50);
