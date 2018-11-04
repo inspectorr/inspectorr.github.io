@@ -108,6 +108,8 @@ document.addEventListener('touchstart', function (event) {
 document.addEventListener('mousemove', function (event) {
     if (event.targetTouches.length == 2) return;
     move(event);
+}, {
+    passive: false
 });
 
 document.addEventListener('touchmove', function (event) {
