@@ -146,7 +146,7 @@ if (mobile) {
         if (event.touches) {
             event.preventDefault();
             if (event.touches.length >= 2) {
-                fire(event);
+                event.target.click();
             };
         };
     }, false);
