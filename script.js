@@ -58,6 +58,7 @@ function move(event) {
         return;
     };
     canvasClientX = eventX - canvasCoords.left;
+}
 document.addEventListener('mousemove', move, false);
 document.addEventListener('touchstart', move, false);
 document.addEventListener('touchsmove', move, false);
