@@ -158,8 +158,10 @@ function fire(event) {
 //        };
 //    };
 //}, false);
+// suka davay
 
 document.addEventListener('touchend', function (event) {
+    if (event.targetTouches.length == 2) return;
     lastposX = player.x;
     dX = 0;
     event.preventDefault();
@@ -175,14 +177,13 @@ document.addEventListener('pointerup', function (event) {
 
 document.addEventListener('click', function (event) {
     event.preventDefault();
-    //    if (event.touches) {
-    //        if (event.touches.length == 2) fire();
-    //    };
+        if (event.touches) {
+            if (event.touches.length == 2) return;
+        };
     if (event.clientX && event.clientY) fire();
 }, false);
 
 //if (!mobile) document.addEventListener('click', fire, false);
-
 
 //setTimeout(() => fire(), 3000);
 
