@@ -41,16 +41,26 @@ canvas.addEventListener('contextmenu', function (event) {
 let canvasCoords = canvas.getBoundingClientRect();
 let canvasClientX = canvas.width / 2;
 let canvasClientY = 2 * canvas.height / 3;
-document.addEventListener('mousemove', function (event) {
-    canvasClientY = event.clientY - canvasCoords.top;
+function move(event) {
+    let eventX, eventY;
+    if (event.clientX && event.clientY) {
+        eventX = event.clientX;
+        eventY = event.clientY;
+    } else if (event.targetTouches) {
+        eventX = event.targetTouches[0].clientX;
+        eventY = event.targetTouches[0].clientY;
+    }
+    canvasClientY = eventY - canvasCoords.top;
     if (event.target != canvas) {
-        if (event.clientX > clientWidth / 2) {
+        if (eventX > clientWidth / 2) {
             canvasClientX = canvas.width;
         } else canvasClientX = 0;
         return;
     };
-    canvasClientX = event.clientX - canvasCoords.left;
-});
+    canvasClientX = eventX - canvasCoords.left;
+document.addEventListener('mousemove', move, false);
+document.addEventListener('touchstart', move, false);
+document.addEventListener('touchsmove', move, false);
 
 class Shot {
     constructor(x, y, width, height) {
