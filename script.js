@@ -145,7 +145,7 @@ if (mobile) {
     document.addEventListener('touchstart', function (event) {
         if (event.touches) {
             event.preventDefault();
-            if ()
+//            if ()
             if (event.touches.length >= 2) {
                 fire();
             };
