@@ -1,6 +1,9 @@
+
+
 body {
     background-color: aliceblue;
     text-align: center;
+    touch-action: none;
 }
 
 h1 {
@@ -18,7 +21,7 @@ h1 {
 }
 
 #version {
-    position: fixed;
+    position: absolute;
     right: 0;
     bottom: 0;
 }

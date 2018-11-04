@@ -2,7 +2,7 @@
 
 let mobile = !!~navigator.userAgent.indexOf('Mobile');
 if (mobile) {
-    document.getElementById('version').style.color = 'rgba(150, 150, 150, 0.1)';
+    document.getElementById('version').style.color = 'rgba(150, 150, 150, 0.3)';
 }
 
 setInterval(() => console.log(`Aseroids: ${currentAsteroids.length}`), 1000);
@@ -114,6 +114,7 @@ function fire(event) {
 if (mobile) {
     document.addEventListener('touchstart', function (event) {
         if (event.touches) {
+            event.preventDefault();
             if (event.touches.length >= 2) {
                 fire();
             };
