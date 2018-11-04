@@ -99,7 +99,10 @@ function move(event) {
 }
 
 document.addEventListener('touchstart', function (event) {
-    if (event.targetTouches.length == 2) return;
+    if (event.targetTouches.length == 2) {
+        fire();
+        return;
+    }
     lastposX = event.targetTouches[0].clientX;
     dX = 0;
     //    move(event);
@@ -115,6 +118,7 @@ document.addEventListener('mousemove', function (event) {
 document.addEventListener('touchmove', function (event) {
     if (event.targetTouches.length == 2) return;
     move(event);
+
 }, {
     passive: false
 });
@@ -145,15 +149,15 @@ function fire(event) {
     currentShots.push(shot);
 }
 
-document.addEventListener('touchstart', function (event) {
-    event.preventDefault();
-    if (event.touches) {
-        if (event.touches.length == 2) {
-            fire();
-            //            document.dispatchEvent(new Event('click'));
-        };
-    };
-}, false);
+//document.addEventListener('touchstart', function (event) {
+//    event.preventDefault();
+//    if (event.touches) {
+//        if (event.touches.length == 2) {
+//            fire();
+//            //            document.dispatchEvent(new Event('click'));
+//        };
+//    };
+//}, false);
 
 document.addEventListener('touchend', function (event) {
     lastposX = player.x;
