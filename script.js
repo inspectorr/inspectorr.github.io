@@ -1,5 +1,7 @@
 'use strict';
 
+let mobile = !!~navigator.userAgent.indexOf('Mobile');
+
 setInterval(() => console.log(`Aseroids: ${currentAsteroids.length}`), 1000);
 
 function sqrt(num) {
@@ -20,11 +22,10 @@ function randomSign() {
 
 // позиционирование
 let canvas = document.getElementById('game');
-
 let clientHeight = document.documentElement.clientHeight;
 let clientWidth = document.documentElement.clientWidth;
 canvas.setAttribute('height', clientHeight + 'px');
-canvas.setAttribute('width', 500 + 'px');
+canvas.setAttribute('width', (mobile ? clientWidth : 500) + 'px');
 document.body.minWidth = canvas.width;
 canvas.style.marginTop = -canvas.height / 2 + 'px';
 canvas.style.marginLeft = -canvas.width / 2 + 'px';
@@ -33,14 +34,16 @@ document.addEventListener('mousedown', function (event) {
     event.preventDefault();
 });
 
+document.addEventListener('dblclick', function (event) {
+
+});
+
 canvas.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 });
 
 // передвижение
 let canvasCoords = canvas.getBoundingClientRect();
-let canvasClientX = canvas.width / 2;
-let canvasClientY = 2 * canvas.height / 3;
 
 function move(event) {
     let eventX, eventY;
@@ -49,16 +52,18 @@ function move(event) {
         eventY = event.clientY;
     } else if (event.targetTouches) {
         eventX = event.targetTouches[0].clientX;
-        eventY = event.targetTouches[0].clientY;
-    }
-    canvasClientY = eventY - canvasCoords.top;
+        eventY = event.targetTouches[0].clientY + -clientHeight / 7;
+    };
+    player.x = eventX;
+    player.y = eventY;
+    player.y = eventY - canvasCoords.top;
     if (event.target != canvas) {
         if (eventX > clientWidth / 2) {
-            canvasClientX = canvas.width;
-        } else canvasClientX = 0;
+            player.x = canvas.width;
+        } else player.x = 0;
         return;
     };
-    canvasClientX = eventX - canvasCoords.left;
+    player.x = eventX - canvasCoords.left;
 }
 
 document.addEventListener('mousemove', move, false);
@@ -80,17 +85,49 @@ class Shot {
     }
 }
 
-document.addEventListener('click', function (event) {
-    let y = event.clientY - canvasCoords.top;
-    let x = event.clientX - canvasCoords.left;
+function fire(event) {
+    let eventX, eventY;
+    if (event.clientX && event.clientY) {
+        eventX = event.clientX;
+        eventY = event.clientY;
+    } else if (event.targetTouches) {
+        eventX = event.targetTouches[0].clientX;
+        eventY = event.targetTouches[0].clientY + -clientHeight / 7;
+    };
+    player.y = eventY - canvasCoords.top;
+    player.x = eventX - canvasCoords.left;
     if (event.target != canvas) {
         if (event.clientX > clientWidth / 2) {
             x = canvas.width;
         } else x = 0;
     };
-    let shot = new Shot(x, y, 10, 40);
+    let shot = new Shot(player.x, player.y, 10, 40);
     currentShots.push(shot);
-});
+}
+
+if (mobile) {
+    document.addEventListener('touchend', function (event) {
+        event.preventDefault();
+        event.target.click();
+    }, false);
+    document.addEventListener('touchstart', function (event) {
+        if (event.targetTouches.length < 2) return;
+        event.target.click();        
+    });
+} else {
+    document.addEventListener('click', fire, false);
+};
+
+    //setTimeout(() => {
+    //    console.log('touch1');
+    //    let event = new Event('touchstart');
+    //    event.targetTouches = [undefined, undefined];
+    //    event.targetTouches[1] = {
+    //        clientX: player.x - 100,
+    //        clientY: player.y
+    //    };
+    //    document.dispatchEvent(event);
+    //}, 1000)
 
 class Asteroid {
     constructor(x, y, size, speedX, speedY) {
@@ -208,7 +245,7 @@ function maingame(time) {
             };
         };
         // попадание по звездолету
-        let dist = sqrt(pow(asteroid.x - canvasClientX, 2) + pow(asteroid.y - canvasClientY, 2));
+        let dist = sqrt(pow(asteroid.x - player.x, 2) + pow(asteroid.y - player.y, 2));
         dist -= asteroid.r + player.r;
         if (dist <= 0) {
             player.lives--;
@@ -228,7 +265,8 @@ function maingame(time) {
     ctx.save();
     let xOff = -1 + Math.random() * 2;
     let yOff = -2 + Math.random() * 4;
-    ctx.translate(canvasClientX + xOff, canvasClientY + yOff)
+
+    ctx.translate(player.x + xOff, player.y + yOff)
 
     ctx.save(); // корпус
     let corpRadGrad = ctx.createRadialGradient(0, -10, 15, 0, -10, 50);
@@ -300,7 +338,7 @@ function maingame(time) {
     ctx.fillStyle = cabRadGrad;
     ctx.fill();
     ctx.restore();
-    
+
     ctx.save(); // отображение жизней
     ctx.fillStyle = '#f00';
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -311,17 +349,17 @@ function maingame(time) {
         ctx.restore();
     };
     ctx.restore();
-    
-    
-    
+
+
+
     ctx.restore();
-    
+
     ctx.save(); // очки
     ctx.font = '700 54px sans-serif';
     ctx.fillStyle = '#FFF';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'top';
-    ctx.fillText(`${player.score}`, canvas.width-10, 10);
+    ctx.fillText(`${player.score}`, canvas.width - 10, 10);
     ctx.restore();
 
     if (player.lives <= 0) {
@@ -338,6 +376,8 @@ let player = {
     score: 0,
     r: 40
 };
+player.x = canvas.width / 2;
+player.y = 2 * canvas.height / 3;
 let animation;
 let currentAsteroids = [];
 let currentExplodes = [];
@@ -345,12 +385,15 @@ let currentShots = [];
 let xScale,
     yScale;
 
+
 function NEWGAME() {
     player = {
         lives: 3,
         score: 0,
         r: 40
     };
+    player.x = canvas.width / 2;
+    player.y = 2 * canvas.height / 3;
     currentAsteroids = [];
     currentExplodes = [];
     currentShots = [];
@@ -391,12 +434,13 @@ function gameover() {
     blink.addColorStop(rand + 0.10 + 0.01, `rgba(200, 0, 0, ${Math.random()})`);
     blink.addColorStop(1, `rgba(200, 0, 0, ${Math.random()})`);
     ctx.strokeStyle = blink;
-        
+
     ctx.lineWidth = 4;
     ctx.lineJoin = 'bevel';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = '700 72px sans-serif';
+    let fontSize = Math.floor(0.144 * canvas.width);
+    ctx.font = `700 ${fontSize}px sans-serif`;
     let x = canvas.width / 2 + randomInt(-3, 3);
     let y = canvas.height / 2 + randomInt(-7, 7);
     ctx.strokeText('GAME OVER', x, y);
