@@ -141,12 +141,12 @@ function fire(event) {
 }
 
 document.addEventListener('touchstart', function (event) {
-//    if (event.touches) {
-        event.preventDefault();
-//        if (event.touches.length >= 2) {
-//            fire();
-//        };
-//    };
+    event.preventDefault();
+    if (event.touches) {
+        if (event.touches.length == 2) {
+            return;
+        };
+    };
 }, false);
 
 document.addEventListener('touchend', function (event) {
