@@ -23,6 +23,8 @@ function randomSign() {
     return [-1, 1][randomInt(0, 1)];
 }
 
+
+
 // позиционирование
 let canvas = document.getElementById('game');
 let clientHeight = document.documentElement.clientHeight;
@@ -35,6 +37,21 @@ canvas.setAttribute('width', (mobile ? clientWidth : 500) + 'px');
 document.body.minWidth = canvas.width;
 canvas.style.marginTop = -canvas.height / 2 + 'px';
 canvas.style.marginLeft = -canvas.width / 2 + 'px';
+
+let player = {
+    lives: 3,
+    score: 0,
+    r: 40
+};
+player.x = canvas.width / 2;
+player.y = 2 * canvas.height / 3;
+let animation;
+let currentAsteroids = [];
+let currentExplodes = [];
+let currentShots = [];
+let xScale,
+    yScale;
+
 
 document.addEventListener('mousedown', function (event) {
     event.preventDefault();
@@ -51,6 +68,7 @@ document.addEventListener('contextmenu', function (event) {
 // передвижение
 let canvasCoords = canvas.getBoundingClientRect();
 
+let lastposX;
 function move(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -58,28 +76,39 @@ function move(event) {
     if (event.clientX && event.clientY) {
         eventX = event.clientX;
         eventY = event.clientY;
+        player.x = eventX;
     } else if (event.targetTouches) {
-        eventX = event.targetTouches[0].clientX; // + -clientHeight / 6; 
+        let dX = lastposX - event.targetTouches[0].clientX;
+        player.x = lastposX + dX;
+//        if (!wasfirstmove) {
+//            eventX = event.targetTouches[0].clientX;
+//            wasfirstmove = true;
+//        } else {
+//            eventX = player.x + eventX; // + -clientHeight / 6;
+//        }
+//        eventX = event.targetTouches[0].clientX; // + -clientHeight / 6
         eventY = event.targetTouches[0].clientY + -clientHeight / 6;
-
     };
-    player.x = eventX;
-    player.y = eventY;
-    player.y = eventY - canvasCoords.top;
-    if (event.target != canvas) {
-        if (eventX > clientWidth / 2) {
-            player.x = canvas.width;
-        } else player.x = 0;
-        return;
-    };
-    player.x = eventX - canvasCoords.left;
+        player.y = eventY - canvasCoords.top;
+////    if (event.target != canvas) {
+////        if (eventX > clientWidth / 2) {
+////            player.x = canvas.width;
+////        } else player.x = 0;
+////        return;
+////    };
+//    player.x = eventX - canvasCoords.left;
 }
 
+document.addEventListener('touchstart', function(event) {
+    lastposX = event.targetTouches[0].clientX;
+    move(event);
+}, false);
 document.addEventListener('mousemove', move, {
     passive: false
 });
-document.addEventListener('touchstart', move, false);
-document.addEventListener('touchmove', move, false);
+document.addEventListener('touchmove', move, {
+    passive: false
+});
 
 class Shot {
     constructor(x, y) {
@@ -250,7 +279,7 @@ function maingame(time) {
             asteroid.blikX, blikY, asteroid.r / 5, 
             0, 0, asteroid.r + 10);
         asterRadGrad.addColorStop(0, '#eee');
-        asterRadGrad.addColorStop(0.5, '#bbb');
+        asterRadGrad.addColorStop(0.5  , '#bbb');
         asterRadGrad.addColorStop(1, '#888');
         ctx.fillStyle = asterRadGrad;
         ctx.beginPath();
@@ -435,20 +464,6 @@ function maingame(time) {
 
     animation = requestAnimationFrame(maingame);
 }
-
-let player = {
-    lives: 3,
-    score: 0,
-    r: 40
-};
-player.x = canvas.width / 2;
-player.y = 2 * canvas.height / 3;
-let animation;
-let currentAsteroids = [];
-let currentExplodes = [];
-let currentShots = [];
-let xScale,
-    yScale;
 
 function NEWGAME() {
     animation = requestAnimationFrame(maingame);
