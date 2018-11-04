@@ -80,6 +80,7 @@ function move(event) {
         eventY = event.clientY;
         player.x = eventX;
     } else if (event.targetTouches) {
+        if (event.targetTouches.length >= 2) return;
         dX = lastposX - event.targetTouches[0].clientX;
         player.x += dX;
         lastposX = event.targetTouches[0].clientX;
@@ -144,11 +145,12 @@ if (mobile) {
     document.addEventListener('touchstart', function (event) {
         if (event.touches) {
             event.preventDefault();
+            if ()
             if (event.touches.length >= 2) {
                 fire();
             };
         };
-    });
+    }, false);
 
     document.addEventListener('touchend', function (event) {
         lastposX = undefined;
