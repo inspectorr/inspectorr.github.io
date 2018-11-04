@@ -45,6 +45,7 @@ canvas.addEventListener('contextmenu', function (event) {
 let canvasCoords = canvas.getBoundingClientRect();
 
 function move(event) {
+    event.preventDefault();
     //    if (event.touches) {
     //        if (event.touches.length >= 2) {
     //            document.dispatchEvent(new Event('click'));    
