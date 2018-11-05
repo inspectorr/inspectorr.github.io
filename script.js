@@ -69,7 +69,9 @@ document.addEventListener('contextmenu', function (event) {
 let canvasCoords = canvas.getBoundingClientRect();
 
 let lastposX;
+let lastposY;
 let dX;
+let dY;
 
 function move(event) {
     event.preventDefault();
@@ -79,14 +81,19 @@ function move(event) {
         eventX = event.clientX;
         eventY = event.clientY;
         player.x = eventX;
+        player.y = eventY;
     } else if (event.targetTouches) {
         dX = lastposX - event.targetTouches[0].clientX;
         player.x += dX;
         lastposX = event.targetTouches[0].clientX;
-        eventY = event.targetTouches[0].clientY + -clientHeight / 6;
+        
+        dY = event.targetTouches[0].clientY - lastposY;
+        player.y += dY; // + (clientHeight / 6);
+        lastposY = event.targetTouches[0].clientY;
+//        eventY = event.targetTouches[0].clientY + -clientHeight / 6;
     };
 
-    player.y = eventY - canvasCoords.top;
+    player.y -= canvasCoords.top;
     player.x -= canvasCoords.left;
     
 //    if (player.x)
@@ -106,6 +113,8 @@ document.addEventListener('touchstart', function (event) {
     if (event.targetTouches.length == 1) {
         lastposX = event.targetTouches[0].clientX;
         dX = 0;
+        lastposY = event.targetTouches[0].clientY;
+        dY = 0;
     };
     move(event);
 }, false);
