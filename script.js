@@ -74,6 +74,11 @@ let dX;
 let dY;
 
 function move(event) {
+    if (player.x > canvas.width) player.x = canvas.width;
+    if (player.x < 0) player.x = 0;
+    if (player.y > canvas.height) player.y = canvas.height;
+    if (player.y < 0) player.y = 0;
+//    
     event.preventDefault();
     event.stopPropagation();
     let eventX, eventY;
@@ -106,11 +111,14 @@ function move(event) {
 //    };
 }
 
+let finger;
 document.addEventListener('touchstart', function (event) {
     if (event.targetTouches.length == 2) {
+        finger = 1;
         fire();
     };
     if (event.targetTouches.length == 1) {
+        finger = 0;
         lastposX = event.targetTouches[0].clientX;
         dX = 0;
         lastposY = event.targetTouches[0].clientY;
@@ -126,7 +134,9 @@ document.addEventListener('touchmove', function (event) {
 });
 
 document.addEventListener('touchend', function (event) {
-    if (dX == 0 && dY == 0 && event.touches.length == 1) fire();
+    if (dX == 0 && dY == 0 && finger == 0) {
+        fire();
+    };
     event.preventDefault();
     event.target.click();
 //    if (event.targetTouches.length == 2) {
