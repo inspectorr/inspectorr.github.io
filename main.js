@@ -50,7 +50,6 @@ let minSpeedX = 0.003;
 let angs = 20;
 let asterFreq = randomInt(1000, 3000);
 
-
 let asteroidGenerationTimer;
 
 function lauchAsteroids() {

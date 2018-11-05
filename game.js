@@ -18,7 +18,7 @@ function game(time) {
         ctx.save();
         ctx.translate(shot.x, shot.y);
         shot.y -= Shot.speed;
-        let laser = ctx.createLinearGradient(-5, 0, 5, 0);
+        let laser = ctx.createLinearGradient(-0.625*emD, 0, 0.625*emD, 0);
         laser.addColorStop(0, '#F00');
         laser.addColorStop(0.2, '#FFF');
         laser.addColorStop(0.8, '#FFF');
@@ -38,17 +38,16 @@ function game(time) {
 
         ctx.save(); // камень
         ctx.lineWidth = 2;
-        ctx.strokeStyle = '#777';
+        ctx.strokeStyle = '#555';
         ctx.translate(asteroid.x, asteroid.y);
         let propY = canvas.height / Math.max(1, asteroid.y);
         let blikY = Math.floor(asteroid.r - 2 * asteroid.r / propY);
-        if (blikY > asteroid.r) blikY -= 5;
-
+        if (blikY > asteroid.r) blikY = asteroid.r;
         let asterRadGrad = ctx.createRadialGradient(
             asteroid.blikX, blikY, asteroid.r / 5,
-            0, 0, asteroid.r + 10);
+            0, 0, asteroid.r + 20);
         asterRadGrad.addColorStop(0, '#eee');
-        asterRadGrad.addColorStop(0.5, '#bbb');
+        asterRadGrad.addColorStop(0.6, '#aaa');
         asterRadGrad.addColorStop(1, '#888');
         ctx.fillStyle = asterRadGrad;
         ctx.beginPath();
@@ -63,14 +62,20 @@ function game(time) {
 
         ctx.save(); // > бугорки
         ctx.lineWidth = 2;
-
+        ctx.shadowBlur = 2;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.33)';
+        ctx.shadowOffsetX = asteroid.shadowOffsetX;
+        ctx.shadowOffsetY = asteroid.shadowOffsetY;
+        
         for (let i = 0; i < asteroid.tubers.length; i++) {
             ctx.rotate(2 * Math.PI / asteroid.tubers.length);
             let r = asteroid.tubers.innerRs[i];
             let axisAng = asteroid.tubers.axisAngs[i];
             ctx.save() // вокруг оси бугорка
+            ctx.strokeStyle = '#666';
             ctx.rotate(axisAng);
             ctx.translate(-r, 0);
+            ctx.beginPath();
             ctx.moveTo(0, 0);
             ctx.lineTo(0, -6);
             ctx.lineTo(6, -7);

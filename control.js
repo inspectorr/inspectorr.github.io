@@ -98,6 +98,6 @@ document.addEventListener('mousemove', function (event) {
 
 
 function fire(event) {
-    let shot = new Shot(player.x, player.y);
+    let shot = new Shot(player.x, player.y - 10);
     currentShots.push(shot);
 }

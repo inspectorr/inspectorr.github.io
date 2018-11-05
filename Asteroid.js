@@ -14,9 +14,11 @@ class Asteroid {
         this.tubers.innerRs = new Array(count);
         this.tubers.axisAngs = new Array(count);
         for (let i = 0; i < count; i++) {
-            this.tubers.innerRs[i] = (randomInt(7, 22));
-            this.tubers.axisAngs[i] = (Math.PI / 180 * randomInt(-3, 3));
+            this.tubers.innerRs[i] = randomInt(0.875*emD, 2.75*emD);
+            this.tubers.axisAngs[i] = (Math.PI / 180 * randomInt(-0.375*emD, 0.375*emD));
         };
+        this.shadowOffsetX = randomInt(-2, 2);
+        this.shadowOffsetY = randomInt(-2, 2);
 
         let blikX;
         if (this.x > canvas.width / 2 + this.r) {
