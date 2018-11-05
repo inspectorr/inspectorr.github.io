@@ -123,8 +123,10 @@ document.addEventListener('touchend', function (event) {
 //        event.target.click();
 ////        return;
 //    };
-    lastposX = player.x;
-    dX = 0;
+    if (event.targetTouches.length == 1) {
+        lastposX = player.x;
+        dX = 0; 
+    };
 }, false);
 
 document.addEventListener('pointermove', function (event) {
