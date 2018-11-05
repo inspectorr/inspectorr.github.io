@@ -88,34 +88,63 @@ function move(event) {
 
     player.y = eventY - canvasCoords.top;
     player.x -= canvasCoords.left;
-
-    if (event.target != canvas) {
-        if (eventX > clientWidth / 2) {
-            player.x = canvas.width;
-        } else player.x = 0;
-        return;
-    };
+    
+//    if (player.x)
+    
+//    if (event.target != canvas) {
+//        if (eventX > clientWidth / 2) {
+//            player.x = canvas.width;
+//        } else player.x = 0;
+//        return;
+//    };
 }
 
 document.addEventListener('touchstart', function (event) {
     if (event.targetTouches.length == 2) {
         fire();
-        return;
-    }
+    };
     lastposX = event.targetTouches[0].clientX;
     dX = 0;
-    //    move(event);
+    move(event);
 }, false);
 
-document.addEventListener('mousemove', function (event) {
-    if (event.targetTouches.length == 2) return;
+document.addEventListener('touchmove', function (event) {
     move(event);
 }, {
     passive: false
 });
 
-document.addEventListener('touchmove', function (event) {
-    if (event.targetTouches.length == 2) return;
+document.addEventListener('touchend', function (event) {
+    event.preventDefault();
+    event.target.click();
+//    if (event.targetTouches.length == 2) {
+//        event.target.click();
+////        return;
+//    };
+    lastposX = player.x;
+    dX = 0;
+}, false);
+
+document.addEventListener('pointermove', function (event) {
+    event.preventDefault();
+});
+
+document.addEventListener('pointerup', function (event) {
+    event.preventDefault();
+});
+
+document.addEventListener('click', function (event) {
+    event.preventDefault();
+//        if (event.touches) {
+//            if (event.touches.length == 2) {
+//                fire();
+//                return;
+//            }
+//        };
+    if (event.clientX && event.clientY) fire();
+}, false);
+
+document.addEventListener('mousemove', function (event) {
     move(event);
 }, {
     passive: false
@@ -158,35 +187,7 @@ function fire(event) {
 //}, false);
 // suka davay sdsdsdsd  
 
-document.addEventListener('touchend', function (event) {
-    event.preventDefault();
-    if (event.targetTouches.length == 2) {
-        event.target.click();
-        return;
-    };
-    lastposX = player.x;
-    dX = 0;
-    
-}, false);
 
-document.addEventListener('pointermove', function (event) {
-    event.preventDefault();
-});
-
-document.addEventListener('pointerup', function (event) {
-    event.preventDefault();
-});
-
-document.addEventListener('click', function (event) {
-    event.preventDefault();
-        if (event.touches) {
-            if (event.touches.length == 2) {
-                fire();
-                return;
-            }
-        };
-    if (event.clientX && event.clientY) fire();
-}, false);
 
 //if (!mobile) document.addEventListener('click', fire, false);
 
