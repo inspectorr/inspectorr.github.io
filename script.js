@@ -126,7 +126,7 @@ document.addEventListener('touchmove', function (event) {
 });
 
 document.addEventListener('touchend', function (event) {
-    if (dX == 0 && dY == 0) fire();
+    if (dX == 0 && dY == 0 && event.touches.length == 1) fire();
     event.preventDefault();
     event.target.click();
 //    if (event.targetTouches.length == 2) {
