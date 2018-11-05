@@ -103,8 +103,10 @@ document.addEventListener('touchstart', function (event) {
     if (event.targetTouches.length == 2) {
         fire();
     };
-    lastposX = event.targetTouches[0].clientX;
-    dX = 0;
+    if (event.targetTouches.length == 1) {
+        lastposX = event.targetTouches[0].clientX;
+        dX = 0;
+    };
     move(event);
 }, false);
 
