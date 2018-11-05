@@ -23,8 +23,6 @@ function randomSign() {
     return [-1, 1][randomInt(0, 1)];
 }
 
-
-
 // позиционирование
 let canvas = document.getElementById('game');
 let clientHeight = document.documentElement.clientHeight;
@@ -74,11 +72,6 @@ let dX;
 let dY;
 
 function move(event) {
-    if (player.x > canvas.width) player.x = canvas.width;
-    if (player.x < 0) player.x = 0;
-    if (player.y > canvas.height) player.y = canvas.height;
-    if (player.y < 0) player.y = 0;
-//    
     event.preventDefault();
     event.stopPropagation();
     let eventX, eventY;
@@ -93,22 +86,17 @@ function move(event) {
         lastposX = event.targetTouches[0].clientX;
         
         dY = event.targetTouches[0].clientY - lastposY;
-        player.y += dY; // + (clientHeight / 6);
+        player.y += dY;
         lastposY = event.targetTouches[0].clientY;
-//        eventY = event.targetTouches[0].clientY + -clientHeight / 6;
     };
 
     player.y -= canvasCoords.top;
     player.x -= canvasCoords.left;
     
-//    if (player.x)
-    
-//    if (event.target != canvas) {
-//        if (eventX > clientWidth / 2) {
-//            player.x = canvas.width;
-//        } else player.x = 0;
-//        return;
-//    };
+    if (player.x > canvas.width) player.x = canvas.width;
+    if (player.x < 0) player.x = 0;
+    if (player.y > canvas.height) player.y = canvas.height;
+    if (player.y < 0) player.y = 0;
 }
 
 let finger;
@@ -139,14 +127,6 @@ document.addEventListener('touchend', function (event) {
     };
     event.preventDefault();
     event.target.click();
-//    if (event.targetTouches.length == 2) {
-//        event.target.click();
-////        return;
-//    };
-//    if (event.targetTouches.length == 1) {
-//        lastposX = player.x;
-//        dX = 0; 
-//    };
 }, false);
 
 document.addEventListener('pointermove', function (event) {
@@ -159,12 +139,6 @@ document.addEventListener('pointerup', function (event) {
 
 document.addEventListener('click', function (event) {
     event.preventDefault();
-//        if (event.touches) {
-//            if (event.touches.length == 2) {
-//                fire();
-//                return;
-//            }
-//        };
     if (event.clientX && event.clientY) fire();
 }, false);
 
@@ -199,23 +173,6 @@ function fire(event) {
     let shot = new Shot(player.x, player.y);
     currentShots.push(shot);
 }
-
-//document.addEventListener('touchstart', function (event) {
-//    event.preventDefault();
-//    if (event.touches) {
-//        if (event.touches.length == 2) {
-//            fire();
-//            //            document.dispatchEvent(new Event('click'));
-//        };
-//    };
-//}, false);
-// suka davay sdsdsdsd  
-
-
-
-//if (!mobile) document.addEventListener('click', fire, false);
-
-//setTimeout(() => fire(), 3000);
 
 class Asteroid {
     constructor(x, y, size, speedX, speedY) {
