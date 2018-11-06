@@ -12,13 +12,13 @@ function game(time) {
     };
     ctx.restore();
 
-    // выстрелы
+    // ё
     for (let i = 0; i < currentShots.length; i++) {
         let shot = currentShots[i];
         ctx.save();
         ctx.translate(shot.x, shot.y);
         shot.y -= Shot.speed;
-        let laser = ctx.createLinearGradient(-0.625*emD, 0, 0.625*emD, 0);
+        let laser = ctx.createLinearGradient(-0.625 * emD, 0, 0.625 * emD, 0);
         laser.addColorStop(0, '#F00');
         laser.addColorStop(0.2, '#FFF');
         laser.addColorStop(0.8, '#FFF');
@@ -36,21 +36,54 @@ function game(time) {
         asteroid.y += asteroid.speedY;
         asteroid.x += asteroid.speedX;
 
-        ctx.save(); // камень
+
+        ctx.save(); // камень начало
         ctx.lineWidth = 2;
+
+        //        if (asteroid.injured || asteroid.shooted) {
+        //          ctx.strokeStyle = asterRadGrad;  
+        //        }
+
         ctx.strokeStyle = '#555';
-        ctx.translate(asteroid.x, asteroid.y);
+        ctx.translate(asteroid.x, asteroid.y); //
+        
         let propY = canvas.height / Math.max(1, asteroid.y);
         let blikY = Math.floor(asteroid.r - 2 * asteroid.r / propY);
         if (blikY > asteroid.r) blikY = asteroid.r;
-        let asterRadGrad = ctx.createRadialGradient(
-            asteroid.blikX, blikY, asteroid.r / 5,
-            0, 0, asteroid.r + 20);
-        asterRadGrad.addColorStop(0, '#eee');
-        asterRadGrad.addColorStop(0.6, '#aaa');
-        asterRadGrad.addColorStop(1, '#888');
+
+        let asterRadGrad;
+        if (asteroid.injured || asteroid.shooted) { // взрыв
+            let inner = sqrt(asteroid.r) + asteroid.r / 3;
+//            inner = Math.min(inner, asteroid.r-1);
+            asterRadGrad = ctx.createRadialGradient(
+                0, 0, inner,
+                0, 0, asteroid.r--
+            );
+            asterRadGrad.addColorStop(0, 'rgba(255, 255, 255, 1');
+            asterRadGrad.addColorStop(0.4, '#f00');
+            asterRadGrad.addColorStop(0.6, '#a00');
+            asterRadGrad.addColorStop(1, 'rgba(255, 0, 0, 0)');
+            ctx.strokeStyle = '#a00';
+            
+        } else {
+            asterRadGrad = ctx.createRadialGradient(
+                asteroid.blikX, blikY, asteroid.r / 5,
+                0, 0, asteroid.r + 20
+            );
+            asterRadGrad.addColorStop(0, '#eee');
+            asterRadGrad.addColorStop(0.6, '#aaa');
+            asterRadGrad.addColorStop(1, '#888');
+        }
+
         ctx.fillStyle = asterRadGrad;
         ctx.beginPath();
+
+        if (asteroid.injured || asteroid.shooted) {
+            asteroid.size.forEach((s, i, size) => {
+                size[i] -= 8;
+                size[i] = Math.max(size[i], 0);
+            });
+        }
         ctx.moveTo(-asteroid.size[0], 0);
         for (let k = 1; k < asteroid.size.length; k++) {
             ctx.rotate(2 * Math.PI / asteroid.size.length);
@@ -58,7 +91,24 @@ function game(time) {
         };
         ctx.closePath();
         ctx.fill();
+
+        //        if (asteroid.injured || asteroid.shooted) {
+        //            ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+        //            ctx.fillRect(1, 1,
+        //                    randomInt(0, randomSign() * asteroid.r + 10),
+        //                    randomInt(0, randomSign() * asteroid.r + 10)
+        //            ); 
+        ////            for (let i = 0; i < asteroid.r / 2; i++) {
+        ////                ctx.fillRect(1, 1,
+        ////                    randomInt(0, randomSign() * asteroid.r + 10),
+        ////                    randomInt(0, randomSign() * asteroid.r + 10)
+        ////                ); 
+        ////            }
+        //        };
+        //        ctx.clip();
+
         ctx.stroke();
+
 
         ctx.save(); // > бугорки
         ctx.lineWidth = 2;
@@ -66,27 +116,47 @@ function game(time) {
         ctx.shadowColor = 'rgba(0, 0, 0, 0.33)';
         ctx.shadowOffsetX = asteroid.shadowOffsetX;
         ctx.shadowOffsetY = asteroid.shadowOffsetY;
-        
-        for (let i = 0; i < asteroid.tubers.length; i++) {
-            ctx.rotate(2 * Math.PI / asteroid.tubers.length);
-            let r = asteroid.tubers.innerRs[i];
-            let axisAng = asteroid.tubers.axisAngs[i];
-            ctx.save() // вокруг оси бугорка
-            ctx.strokeStyle = '#666';
-            ctx.rotate(axisAng);
-            ctx.translate(-r, 0);
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(0, -6);
-            ctx.lineTo(6, -7);
-            ctx.stroke();
-            ctx.restore(); // возврат к центру астероида
-        };
+
+
+        if (!asteroid.injured && !asteroid.shooted) {
+            for (let i = 0; i < asteroid.tubers.length; i++) {
+                ctx.rotate(2 * Math.PI / asteroid.tubers.length);
+                let r = asteroid.tubers.innerRs[i];
+                let axisAng = asteroid.tubers.axisAngs[i];
+                ctx.save() // вокруг оси бугорка
+                ctx.strokeStyle = '#666';
+                ctx.rotate(axisAng);
+                ctx.translate(-r, 0);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0, -6);
+                ctx.lineTo(6, -7);
+                ctx.stroke();
+                ctx.restore(); // возврат к центру астероида
+            };
+        }
 
         ctx.restore();
-
+        
+//        ctx.save(); // взрыв
+////        let now = new Date();
+//        if (asteroid.injured || asteroid.shooted) {
+////            let r = 30/asteroid.r + 10;
+////            let r = ;
+//            let blast = ctx.createRadialGradient(
+//                0, 0, r/3,
+//                0, 0, r
+//            );
+//            blast.addColorStop(0, `rgba(255, 255, 255, 0.3)`);
+//            blast.addColorStop(1, `rgba(255, 0, 0, 0.3)`);
+//            ctx.fillStyle = blast;
+//            ctx.arc(0, 0, r, 0, 2*Math.PI);
+//            ctx.fill();
+//        }
+//        ctx.restore()
+        
         ctx.restore(); // конец каменя
-
+        
         // вылет за пределы
         if (asteroid.y - asteroid.r > canvas.height) {
             asteroid.out = true;
@@ -105,14 +175,44 @@ function game(time) {
         // попадание по звездолету
         let playerToAst = sqrt(pow(asteroid.x - player.x, 2) + pow(asteroid.y - player.y, 2));
         playerToAst -= asteroid.r + player.r;
-        if (playerToAst <= 0) {
+        if (playerToAst <= 0 && !asteroid.injured) {
             player.lives--;
             asteroid.injured = true;
         };
+
+        // взрыв
+
+        //        if (asteroid.injured || asteroid.shooted) {
+        //            ctx.save();
+        //            ctx.translate(asteroid.x, asteroid.y);
+        //            ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+        //            for (let i = 0; i < asteroid.r / 2; i++) {
+        //                ctx.fillRect(1, 1, 
+        //                    randomInt(0, randomSign()*asteroid.r + 10), 
+        //                    randomInt(0, randomSign()*asteroid.r + 10));
+        //            };
+        //            
+        //            ctx.beginPath(); // (границы заново лол)
+        //            ctx.moveTo(-asteroid.size[0], 0);
+        //            for (let k = 1; k < asteroid.size.length; k++) {
+        //                ctx.rotate(2 * Math.PI / asteroid.size.length);
+        //                ctx.lineTo(-asteroid.size[k], 0);
+        //            };
+        //            ctx.closePath();
+        //            ctx.clip();
+        //
+        //
+        //            ctx.restore();
+        //        };
+
     };
 
     currentAsteroids.forEach(function (ast, i, asts) {
-        if (ast.shooted || ast.out || ast.injured) asts.splice(i--, 1);
+        if (ast.shooted || ast.injured) setTimeout(() => ast.escape(), 300);
+        if (ast.out) ast.escape();
+        if (ast.escaped) {
+            asts.splice(i--, 1);
+        }
     });
 
     currentShots.forEach(function (shot, i, shots) {
@@ -127,59 +227,59 @@ function game(time) {
     ctx.translate(player.x + xOff, player.y + yOff);
 
     ctx.save(); // корпус
-    let corpRadGrad = ctx.createRadialGradient(0, -1.25*emD, 0.875*emD, 0, -1.25*emD, 62.5*emD);
+    let corpRadGrad = ctx.createRadialGradient(0, -1.25 * emD, 0.875 * emD, 0, -1.25 * emD, 62.5 * emD);
     corpRadGrad.addColorStop(0, 'rgba(220, 80, 0, 1)');
     corpRadGrad.addColorStop(0.7, 'rgba(180, 50, 0, 1)');
     corpRadGrad.addColorStop(1, 'rgba(180, 50, 0, 0.8)');
     ctx.fillStyle = corpRadGrad;
     ctx.beginPath();
     ctx.moveTo(-player.r, 0);
-    ctx.bezierCurveTo(-3.6*emD, 3.6*emD, 3.6*emD, 3.6*emD, player.r, 0);
+    ctx.bezierCurveTo(-3.6 * emD, 3.6 * emD, 3.6 * emD, 3.6 * emD, player.r, 0);
     ctx.closePath();
     ctx.fill();
     ctx.restore();
 
     ctx.save(); // пришелец
 
-//    ctx.beginPath();
-//    ctx.moveTo(-emD, 0);
-//    ctx.lineTo(-5, -5);
-//    ctx.bezierCurveTo(-7, -15, -15, -25, 0, -27);
-//    ctx.bezierCurveTo(15, -25, 7, -15, 5, -5);
-//    ctx.lineTo(5, 0);
-//    ctx.closePath();
-//    ctx.fillStyle = 'rgba(0, 200, 0, 1)';
-//    ctx.fill();
-    
+    //    ctx.beginPath();
+    //    ctx.moveTo(-emD, 0);
+    //    ctx.lineTo(-5, -5);
+    //    ctx.bezierCurveTo(-7, -15, -15, -25, 0, -27);
+    //    ctx.bezierCurveTo(15, -25, 7, -15, 5, -5);
+    //    ctx.lineTo(5, 0);
+    //    ctx.closePath();
+    //    ctx.fillStyle = 'rgba(0, 200, 0, 1)';
+    //    ctx.fill();
+
     ctx.beginPath();
-    ctx.moveTo(-0.6*emD, 0);
-    ctx.lineTo(-0.6*emD, -0.6*emD);
-    ctx.bezierCurveTo(-0.875*emD, -1.875*emD, -1.875*emD, -3.125*emD, 0, -3.375*emD);
-    ctx.bezierCurveTo(1.875*emD, -3.125*emD, 0.875*emD, -1.875*emD, 0.6*emD, -0.6*emD);
-    ctx.lineTo(0.6*emD, 0);
+    ctx.moveTo(-0.6 * emD, 0);
+    ctx.lineTo(-0.6 * emD, -0.6 * emD);
+    ctx.bezierCurveTo(-0.875 * emD, -1.875 * emD, -1.875 * emD, -3.125 * emD, 0, -3.375 * emD);
+    ctx.bezierCurveTo(1.875 * emD, -3.125 * emD, 0.875 * emD, -1.875 * emD, 0.6 * emD, -0.6 * emD);
+    ctx.lineTo(0.6 * emD, 0);
     ctx.closePath();
     ctx.fillStyle = 'rgba(0, 200, 0, 1)';
     ctx.fill();
 
     ctx.save(); // левый глаз
-    ctx.translate(-0.5*emD, -2.375*emD);
+    ctx.translate(-0.5 * emD, -2.375 * emD);
     ctx.rotate(Math.PI / 4);
     ctx.beginPath();
-    ctx.moveTo(-0.5*emD, 0);
-    ctx.quadraticCurveTo(0, 0.5*emD, 0.5*emD, 0);
-    ctx.quadraticCurveTo(0, -0.5*emD, -0.5*emD, 0);
+    ctx.moveTo(-0.5 * emD, 0);
+    ctx.quadraticCurveTo(0, 0.5 * emD, 0.5 * emD, 0);
+    ctx.quadraticCurveTo(0, -0.5 * emD, -0.5 * emD, 0);
     ctx.closePath();
     ctx.fillStyle = '#000';
     ctx.fill();
     ctx.restore();
 
     ctx.save(); // правый глаз
-    ctx.translate(0.5*emD, -2.375*emD);
+    ctx.translate(0.5 * emD, -2.375 * emD);
     ctx.rotate(3 * Math.PI / 4);
     ctx.beginPath();
-    ctx.moveTo(0.5*emD, 0);
-    ctx.quadraticCurveTo(0, -0.5*emD, -0.5*emD, 0);
-    ctx.quadraticCurveTo(0, 0.5*emD, 0.5*emD, 0);
+    ctx.moveTo(0.5 * emD, 0);
+    ctx.quadraticCurveTo(0, -0.5 * emD, -0.5 * emD, 0);
+    ctx.quadraticCurveTo(0, 0.5 * emD, 0.5 * emD, 0);
     ctx.closePath();
     ctx.fillStyle = '#000';
     ctx.fill();
@@ -206,7 +306,7 @@ function game(time) {
     ctx.fillStyle = cabRadGrad;
     ctx.fill();
     ctx.restore();
-    
+
     ctx.save(); // отображение жизней
     ctx.fillStyle = '#f00';
     ctx.setTransform(1, 0, 0, 1, 0, 0);

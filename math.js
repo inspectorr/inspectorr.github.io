@@ -13,3 +13,7 @@ function randomInt(min, max) {
 function randomSign() {
     return [-1, 1][randomInt(0, 1)];
 }
+
+function abs(value) {
+    return Math.abs.call(Math, value);
+}

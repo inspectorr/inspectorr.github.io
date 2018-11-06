@@ -5,7 +5,7 @@ class Asteroid {
         this.size = size;
         this.speedX = speedX;
         this.speedY = speedY;
-        this.r = size.reduce((sum, current) => sum + current) / size.length;
+        this.r = Math.floor(size.reduce((sum, current) => sum + current) / size.length);
 
         let count = randomInt(3, 5);
         this.tubers = {
@@ -31,5 +31,12 @@ class Asteroid {
         this.shooted = false;
         this.injured = false;
         this.out = false;
+        
+        this.escaped = false;
+    }
+    
+    escape() {
+        this.escaped = true;
+        return true;
     }
 }
