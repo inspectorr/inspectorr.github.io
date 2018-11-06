@@ -164,11 +164,12 @@ function game(time) {
         if (asteroid.y - asteroid.r > canvas.height) {
             asteroid.out = true;
         };
+        
         // уничтожение лазером   
         for (let j = 0; j < currentShots.length; j++) {
             let laserToAst = sqrt(pow(asteroid.x - currentShots[j].x, 2) + pow(asteroid.y - currentShots[j].y - Shot.height / 2, 2));
             laserToAst -= asteroid.r;
-            if (laserToAst <= 0) {
+            if (laserToAst <= 0 && !asteroid.injured && !asteroid.shooted) {
                 currentShots[j].hit = true;
                 asteroid.shooted = true;
                 player.score++;
