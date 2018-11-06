@@ -35,7 +35,7 @@ function game(time) {
         let asteroid = currentAsteroids[i];
         asteroid.y += asteroid.speedY;
         asteroid.x += asteroid.speedX;
-
+        
 
         ctx.save(); // камень начало
         ctx.lineWidth = 2;
@@ -52,18 +52,21 @@ function game(time) {
         if (blikY > asteroid.r) blikY = asteroid.r;
 
         let asterRadGrad;
+        
         if (asteroid.injured || asteroid.shooted) { // взрыв
-            let inner = sqrt(asteroid.r) + asteroid.r / 3;
+            ctx.scale(1.3, 1.3);
+            ctx.rotate(Math.PI/6);
+            let inner = asteroid.r / 3;
 //            inner = Math.min(inner, asteroid.r-1);
             asterRadGrad = ctx.createRadialGradient(
                 0, 0, inner,
                 0, 0, asteroid.r--
             );
             asterRadGrad.addColorStop(0, 'rgba(255, 255, 255, 1');
-            asterRadGrad.addColorStop(0.4, '#f00');
-            asterRadGrad.addColorStop(0.6, '#a00');
+            asterRadGrad.addColorStop(0.45, '#fff');
+            asterRadGrad.addColorStop(0.55, '#f00');
             asterRadGrad.addColorStop(1, 'rgba(255, 0, 0, 0)');
-            ctx.strokeStyle = '#a00';
+            ctx.strokeStyle = asterRadGrad;
             
         } else {
             asterRadGrad = ctx.createRadialGradient(
@@ -80,7 +83,7 @@ function game(time) {
 
         if (asteroid.injured || asteroid.shooted) {
             asteroid.size.forEach((s, i, size) => {
-                size[i] -= 8;
+                size[i] -= 5;
                 size[i] = Math.max(size[i], 0);
             });
         }
@@ -108,8 +111,7 @@ function game(time) {
         //        ctx.clip();
 
         ctx.stroke();
-
-
+        
         ctx.save(); // > бугорки
         ctx.lineWidth = 2;
         ctx.shadowBlur = 2;
@@ -154,6 +156,7 @@ function game(time) {
 //            ctx.fill();
 //        }
 //        ctx.restore()
+
         
         ctx.restore(); // конец каменя
         
@@ -208,7 +211,7 @@ function game(time) {
     };
 
     currentAsteroids.forEach(function (ast, i, asts) {
-        if (ast.shooted || ast.injured) setTimeout(() => ast.escape(), 300);
+        if (ast.shooted || ast.injured) setTimeout(() => ast.escape(), 250);
         if (ast.out) ast.escape();
         if (ast.escaped) {
             asts.splice(i--, 1);
