@@ -25,14 +25,19 @@ canvas.style.marginLeft = -canvas.width / 2 + 'px';
 
 setInterval(() => console.log(`Aseroids: ${currentAsteroids.length}`), 1000);
 
+
+
+
+
 // Игрок
-let player = {
-    lives: 3,
-    score: 0,
-    r: 5 * emD
-};
-player.x = canvas.width / 2;
-player.y = 2 * canvas.height / 3;
+//let player = {
+//    lives: 3,
+//    score: 0,
+//    r: 5 * emD
+//};
+
+let player = new Player(canvas.width / 2, 2 * canvas.height / 3);
+
 let animation;
 let currentAsteroids = [];
 let currentExplodes = [];

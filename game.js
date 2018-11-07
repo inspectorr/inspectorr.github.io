@@ -35,7 +35,7 @@ function game(time) {
         let asteroid = currentAsteroids[i];
         asteroid.y += asteroid.speedY;
         asteroid.x += asteroid.speedX;
-        
+
 
         ctx.save(); // камень начало
         ctx.lineWidth = 2;
@@ -46,18 +46,18 @@ function game(time) {
 
         ctx.strokeStyle = '#555';
         ctx.translate(asteroid.x, asteroid.y); //
-        
+
         let propY = canvas.height / Math.max(1, asteroid.y);
         let blikY = Math.floor(asteroid.r - 2 * asteroid.r / propY);
         if (blikY > asteroid.r) blikY = asteroid.r;
 
         let asterRadGrad;
-        
+
         if (asteroid.injured || asteroid.shooted) { // взрыв
             ctx.scale(1.3, 1.3);
-            ctx.rotate(Math.PI/6);
+            ctx.rotate(Math.PI / 6);
             let inner = asteroid.r / 3;
-//            inner = Math.min(inner, asteroid.r-1);
+            //            inner = Math.min(inner, asteroid.r-1);
             asterRadGrad = ctx.createRadialGradient(
                 0, 0, inner,
                 0, 0, asteroid.r--
@@ -67,7 +67,7 @@ function game(time) {
             asterRadGrad.addColorStop(0.55, '#f00');
             asterRadGrad.addColorStop(1, 'rgba(255, 0, 0, 0)');
             ctx.strokeStyle = asterRadGrad;
-            
+
         } else {
             asterRadGrad = ctx.createRadialGradient(
                 asteroid.blikX, blikY, asteroid.r / 5,
@@ -111,7 +111,7 @@ function game(time) {
         //        ctx.clip();
 
         ctx.stroke();
-        
+
         ctx.save(); // > бугорки
         ctx.lineWidth = 2;
         ctx.shadowBlur = 2;
@@ -139,32 +139,32 @@ function game(time) {
         }
 
         ctx.restore();
-        
-//        ctx.save(); // взрыв
-////        let now = new Date();
-//        if (asteroid.injured || asteroid.shooted) {
-////            let r = 30/asteroid.r + 10;
-////            let r = ;
-//            let blast = ctx.createRadialGradient(
-//                0, 0, r/3,
-//                0, 0, r
-//            );
-//            blast.addColorStop(0, `rgba(255, 255, 255, 0.3)`);
-//            blast.addColorStop(1, `rgba(255, 0, 0, 0.3)`);
-//            ctx.fillStyle = blast;
-//            ctx.arc(0, 0, r, 0, 2*Math.PI);
-//            ctx.fill();
-//        }
-//        ctx.restore()
 
-        
+        //        ctx.save(); // взрыв
+        ////        let now = new Date();
+        //        if (asteroid.injured || asteroid.shooted) {
+        ////            let r = 30/asteroid.r + 10;
+        ////            let r = ;
+        //            let blast = ctx.createRadialGradient(
+        //                0, 0, r/3,
+        //                0, 0, r
+        //            );
+        //            blast.addColorStop(0, `rgba(255, 255, 255, 0.3)`);
+        //            blast.addColorStop(1, `rgba(255, 0, 0, 0.3)`);
+        //            ctx.fillStyle = blast;
+        //            ctx.arc(0, 0, r, 0, 2*Math.PI);
+        //            ctx.fill();
+        //        }
+        //        ctx.restore()
+
+
         ctx.restore(); // конец каменя
-        
+
         // вылет за пределы
         if (asteroid.y - asteroid.r > canvas.height) {
             asteroid.out = true;
         };
-        
+
         // уничтожение лазером   
         for (let j = 0; j < currentShots.length; j++) {
             let laserToAst = sqrt(pow(asteroid.x - currentShots[j].x, 2) + pow(asteroid.y - currentShots[j].y - Shot.height / 2, 2));
@@ -180,6 +180,7 @@ function game(time) {
         let playerToAst = sqrt(pow(asteroid.x - player.x, 2) + pow(asteroid.y - player.y, 2));
         playerToAst -= asteroid.r + player.r;
         if (playerToAst <= 0 && !asteroid.injured) {
+            player.redShieldBlock(700);
             player.lives--;
             asteroid.injured = true;
         };
@@ -228,7 +229,7 @@ function game(time) {
     let xOff = -1 + Math.random() * 2;
     let yOff = -2 + Math.random() * 4;
 
-    ctx.translate(player.x + xOff, player.y + yOff);
+    ctx.setTransform(1, 0, 0, 1, player.x + xOff, player.y + yOff);
 
     ctx.save(); // корпус
     let corpRadGrad = ctx.createRadialGradient(0, -1.25 * emD, 0.875 * emD, 0, -1.25 * emD, 62.5 * emD);
@@ -243,7 +244,7 @@ function game(time) {
     ctx.fill();
     ctx.restore();
 
-    ctx.save(); // пришелец
+    ctx.save(); // инопланетянен
 
     //    ctx.beginPath();
     //    ctx.moveTo(-emD, 0);
@@ -264,6 +265,11 @@ function game(time) {
     ctx.closePath();
     ctx.fillStyle = 'rgba(0, 200, 0, 1)';
     ctx.fill();
+
+    // моргание
+    //    let morg = new Date();
+    //    if (Math.floor(morg.getSeconds))
+
 
     ctx.save(); // левый глаз
     ctx.translate(-0.5 * emD, -2.375 * emD);
@@ -302,14 +308,88 @@ function game(time) {
     ctx.beginPath();
     ctx.arc(0, 0, player.r, 0, -Math.PI, true);
     ctx.closePath();
+
     let cabRadGrad = ctx.createRadialGradient(0, -player.r / 2, 7, 0, 0, player.r);
     let blink = Math.min(0.45 + Math.random(), 0.75);
     cabRadGrad.addColorStop(0, `rgba(255, 255, 255, ${blink})`);
     cabRadGrad.addColorStop(0.8, 'rgba(0, 200, 250, 0.6)');
     cabRadGrad.addColorStop(1, 'rgba(0, 150, 200, 0.7)');
     ctx.fillStyle = cabRadGrad;
+
+    // блок 
+    if (player.redShieldBlocked) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(0, 0, player.r, 0, -Math.PI, true);
+        ctx.lineWidth = 8;
+
+        let shield = ctx.createRadialGradient(
+            0, 0, player.r - ctx.lineWidth / 2,
+            0, 0, player.r + ctx.lineWidth * 2
+        );
+        shield.addColorStop(0, 'rgba(150, 0, 222, 1)');
+        shield.addColorStop(0.4, 'rgba(255, 255, 255, 0.7)');
+        shield.addColorStop(0.8, `rgba(255, 255, 255, ${blink})`);
+        shield.addColorStop(1, `rgba(150, 0, 222, ${blink})`);
+
+        for (let i = 0; i < 150; i++) {
+            ctx.save();
+            ctx.translate(-3, -3);
+            ctx.fillStyle = `rgba(${randomInt(0, 255)},
+            ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`
+            let x = randomInt(-player.r, player.r);
+            let y = randomInt(-player.r, 0);
+            let r = sqrt(pow(x, 2) + pow(y, 2));
+            if (player.r <= r) {;
+                x = y = player.r;
+            };
+            ctx.fillRect(x, y, 6, 6);
+            ctx.restore();
+        };
+        ctx.strokeStyle = shield;
+        ctx.stroke();
+        ctx.restore();
+
+
+    }
+
+    
+
+
     ctx.fill();
     ctx.restore();
+    
+//    // здоровье < 3 (трещины)
+//    if (player.lives < 3) {
+//        ctx.save();
+//        ctx.beginPath();
+//        ctx.strokeStyle = '#ddd';
+//        let count = this.cracks;
+//        for (let i = 0; i < count; i++) {
+//            ctx.moveTo(player.outerCrackPts[i][0], player.outerCrackPts[i][1]);
+//            ctx.lineTo(player.midCrackPts[i][0], player.midCrackPts[i][1]);
+////            ctx.lineTo(player.bottomCrackPts[i][0], player.bottomCrackPts[i][1]);
+//        };
+////        for (let i = 0; i < count / 2; i++) {
+////             ctx.moveTo(player.midCrackPts[i][0], player.midCrackPts[i][1]);
+////             ctx.lineTo(player.bottomCrackPts[i][0], player.bottomCrackPts[i][1]);
+////        };
+//        ctx.stroke();
+//        player.midCrackPts.forEach((item, i, arr) => {
+//            let x = arr[i][0];
+//            let y = arr[i][1];
+//            ctx.fillStyle = 'red';
+//            ctx.fillRect(x, y, 1, 1);
+//        });
+//        player.outerCrackPts.forEach((item, i, arr) => {
+//            let x = arr[i][0];
+//            let y = arr[i][1];
+//            ctx.fillStyle = 'white';
+//            ctx.fillRect(x, y, 1, 1);
+//        });
+//        ctx.restore();
+//    }
+
 
     ctx.save(); // отображение жизней
     ctx.fillStyle = '#f00';
