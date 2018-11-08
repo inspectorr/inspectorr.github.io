@@ -354,18 +354,6 @@ function game(time) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(0, 0, player.r, 0, -Math.PI, true);
-//        ctx.lineWidth = emD * 3;
-//
-//        let shield = ctx.createRadialGradient(
-//            0, 0, player.r - ctx.lineWidth / 2,
-//            0, 0, player.r + ctx.lineWidth / 2
-//        );
-//        shield.addColorStop(0, 'rgba(0, 0, 0, 0)');
-//        shield.addColorStop(0.5, 'rgba(200, 0, 50, 1)');
-//        shield.addColorStop(0.8, 'rgba(200, 0, 50, 1)');
-//        //        shield.addColorStop(0.9, 'rgba(255, 255, 255, 1)');
-//        shield.addColorStop(1, 'rgba(200, 0, 50, 0)');
-
         for (let i = 0; i < 100; i++) {
             ctx.save();
             ctx.translate(-3, -3);
@@ -373,17 +361,9 @@ function game(time) {
             ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`;
             let x = randomInt(-player.r, player.r);
             let y = randomInt(-player.r, 0);
-            let r = sqrt(pow(x, 2) + pow(y, 2));
-            if (player.r <= r) {
-                x = 0;
-                y = -player.r / 2;
-            };
             ctx.fillRect(x, y, 8, 8);
             ctx.restore();
         };
-
-        //        ctx.strokeStyle = shield;
-        //        if ((player.frame-1)%10 == 0) ctx.stroke();
 
         ctx.restore();
     }
@@ -405,7 +385,6 @@ function game(time) {
         shield.addColorStop(0, 'rgba(0, 0, 0, 0)');
         shield.addColorStop(0.5, 'rgba(200, 0, 50, 1)');
         shield.addColorStop(0.8, 'rgba(200, 0, 50, 1)');
-        //        shield.addColorStop(0.9, 'rgba(255, 255, 255, 1)');
         shield.addColorStop(1, 'rgba(200, 0, 50, 0)');
 
         ctx.strokeStyle = shield;
