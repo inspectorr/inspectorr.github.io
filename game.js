@@ -470,7 +470,7 @@ function game(time) {
             };
 
             ctx.save();
-            if ((player.frame - 1) % 5 == 0) {
+            if ((player.frame - 1) % 10 == 0) {
                 ctx.fillStyle = '#fff';
                 ctx.fillRect(0, 0, 6 * emD, 6 * emD);
             };
