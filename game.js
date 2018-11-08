@@ -382,7 +382,7 @@ function game(time) {
         };
 
         ctx.strokeStyle = shield;
-        if (player.frame % 4 == 0) ctx.stroke();
+        if ((player.frame-5)%10 == 0) ctx.stroke();
 
         ctx.restore();
     }
@@ -457,14 +457,21 @@ function game(time) {
         if (player.redShieldBlocked && i == player.lives - 1) {
             for (let i = 0; i < 300; i++) {
                 ctx.save();
-                ctx.fillStyle = `rgba(${randomInt(0, 255)},
-                ${0}, ${randomInt(0, 50)}, 0.2)`;
-        
+                ctx.fillStyle = `rgba(${randomInt(100, 255)},
+                ${randomInt(0, 0)}, ${randomInt(0, 200)}, 0.8)`;
                 let x = randomInt(0, 6*emD);
                 let y = randomInt(0, 6*emD);
                 ctx.fillRect(x, y, 6, 6);
                 ctx.restore();
             };
+            
+            ctx.save();
+            if (player.frame % 5 == 0) {
+                ctx.fillStyle = '#fff'; 
+                ctx.fillRect(0, 0, 6*emD, 6*emD);
+            };
+            ctx.restore();
+            
         };
 
         ctx.restore();
@@ -474,7 +481,7 @@ function game(time) {
     ctx.restore();
 
     ctx.save(); // очки
-    ctx.font = `1000 ${5*emD}px sans-serif`;
+    ctx.font = `1000 ${6*emD}px sans-serif`;
     ctx.fillStyle = '#FFF';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'top';
