@@ -13,7 +13,7 @@ function game(time) {
     };
     ctx.restore();
 
-    
+
     // астероиды
     for (let i = 0; i < currentAsteroids.length; i++) {
         let asteroid = currentAsteroids[i];
@@ -48,8 +48,8 @@ function game(time) {
             );
             asterRadGrad.addColorStop(0, 'rgba(255, 255, 255, 1');
             asterRadGrad.addColorStop(0.45, '#fff');
-            asterRadGrad.addColorStop(0.55, '#f00');
-            asterRadGrad.addColorStop(1, 'rgba(255, 0, 0, 0)');
+            asterRadGrad.addColorStop(0.55, 'rgba(200, 0, 0, 1)');
+            asterRadGrad.addColorStop(1, 'rgba(200, 0, 0, 0)');
             ctx.strokeStyle = asterRadGrad;
 
         } else {
@@ -96,8 +96,8 @@ function game(time) {
 
         ctx.stroke();
 
-        
-        
+
+
         ctx.save(); // > бугорки
         ctx.lineWidth = 2;
         ctx.shadowBlur = 2;
@@ -155,7 +155,8 @@ function game(time) {
         for (let j = 0; j < currentShots.length; j++) {
             let laserToAst = sqrt(pow(asteroid.x - currentShots[j].x, 2) + pow(asteroid.y - currentShots[j].y, 2));
             laserToAst -= asteroid.r;
-            if (laserToAst <= 0 && !asteroid.injured && !asteroid.shooted) {
+            if (laserToAst <= 0 && !asteroid.injured && !asteroid.shooted &&
+                asteroid.y + asteroid.r > 0) {
                 currentShots[j].hit = true;
                 asteroid.shooted = true;
                 player.score++;
@@ -167,7 +168,7 @@ function game(time) {
         playerToAst -= asteroid.r + player.r;
         if (playerToAst <= 0 && !asteroid.injured) {
             player.redShieldBlock(1200);
-            player.lives--;
+            player.injure();
             asteroid.injured = true;
         };
 
@@ -205,29 +206,29 @@ function game(time) {
             asts.splice(i--, 1);
         }
     });
-    
+
     // лазер
     for (let i = 0; i < currentShots.length; i++) {
         let shot = currentShots[i];
         ctx.save();
         ctx.translate(shot.x, shot.y - Shot.height / 2);
         shot.y -= Shot.speed;
-        
-        let laser = ctx.createLinearGradient(-Shot.width/2, 0, Shot.width/2, 0);
-        
+
+        let laser = ctx.createLinearGradient(-Shot.width / 2, 0, Shot.width / 2, 0);
+
         let sup = 0;
-        if (now.getMilliseconds() % 5 == 0) sup = Math.random()*0.25;
+        if (now.getMilliseconds() % 5 == 0) sup = Math.random() * 0.25;
         let flash = 0.25;
-//        if (now.getMilliseconds() % 5 == 0) {
-//            flash = Math.max(sup+0.05, Math.random()*0.3);
-//        }
-        
+        //        if (now.getMilliseconds() % 5 == 0) {
+        //            flash = Math.max(sup+0.05, Math.random()*0.3);
+        //        }
+
         laser.addColorStop(sup, 'rgba(255, 0, 0, 0)');
         laser.addColorStop(flash, 'rgba(255, 0, 0, 1)');
         laser.addColorStop(flash, 'rgba(255, 255, 255, 1)');
-        laser.addColorStop(1-flash, 'rgba(255, 255, 255, 1)');
-        laser.addColorStop(1-flash, 'rgba(255, 0, 0, 1)');
-        laser.addColorStop(1-sup, 'rgba(255, 0, 0, 0)');
+        laser.addColorStop(1 - flash, 'rgba(255, 255, 255, 1)');
+        laser.addColorStop(1 - flash, 'rgba(255, 0, 0, 1)');
+        laser.addColorStop(1 - sup, 'rgba(255, 0, 0, 0)');
         ctx.fillStyle = laser;
         ctx.fillRect(-Shot.width / 2, 0, Shot.width, Shot.height);
         ctx.restore();
@@ -235,7 +236,7 @@ function game(time) {
         if (shot.y + Shot.height < 0) shot.out = true;
     };
 
-    
+
     currentShots.forEach(function (shot, i, shots) {
         if (shot.hit || shot.out) shots.splice(i--, 1);
     });
@@ -252,6 +253,7 @@ function game(time) {
     corpRadGrad.addColorStop(0, 'rgba(220, 80, 0, 1)');
     corpRadGrad.addColorStop(0.7, 'rgba(180, 50, 0, 1)');
     corpRadGrad.addColorStop(1, 'rgba(180, 50, 0, 0.8)');
+
     ctx.fillStyle = corpRadGrad;
     ctx.beginPath();
     ctx.moveTo(-player.r, 0);
@@ -282,9 +284,6 @@ function game(time) {
     ctx.fillStyle = 'rgba(0, 200, 0, 1)';
     ctx.fill();
 
-    // моргание
-    //    let morg = new Date();
-    //    if (Math.floor(morg.getSeconds))
 
 
     ctx.save(); // левый глаз
@@ -292,8 +291,16 @@ function game(time) {
     ctx.rotate(Math.PI / 4);
     ctx.beginPath();
     ctx.moveTo(-0.5 * emD, 0);
-    ctx.quadraticCurveTo(0, 0.5 * emD, 0.5 * emD, 0);
-    ctx.quadraticCurveTo(0, -0.5 * emD, -0.5 * emD, 0);
+
+    let regularLeft = 0.5 * emD;
+    // моргание
+    let nowL = new Date(5000 + time);
+    if (nowL.getSeconds() % 10 == 0 && !player.redShieldBlocked) {
+        regularLeft = 0;
+    };
+
+    ctx.quadraticCurveTo(0, regularLeft, regularLeft, 0);
+    ctx.quadraticCurveTo(0, -regularLeft, -regularLeft, 0);
     ctx.closePath();
     ctx.fillStyle = '#000';
     ctx.fill();
@@ -304,8 +311,16 @@ function game(time) {
     ctx.rotate(3 * Math.PI / 4);
     ctx.beginPath();
     ctx.moveTo(0.5 * emD, 0);
-    ctx.quadraticCurveTo(0, -0.5 * emD, -0.5 * emD, 0);
-    ctx.quadraticCurveTo(0, 0.5 * emD, 0.5 * emD, 0);
+
+    let regularRight = 0.5 * emD;
+    // моргание
+    let nowR = new Date(5000 + time + 100);
+    if (nowR.getSeconds() % 10 == 0 && !player.redShieldBlocked) {
+        regularRight = nowR.getMilliseconds() / 1000 * regularRight;
+    };
+
+    ctx.quadraticCurveTo(0, -regularRight, -regularRight, 0);
+    ctx.quadraticCurveTo(0, regularRight, regularRight, 0);
     ctx.closePath();
     ctx.fillStyle = '#000';
     ctx.fill();
@@ -338,85 +353,39 @@ function game(time) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(0, 0, player.r, 0, -Math.PI, true);
-        ctx.lineWidth = emD*3;
+        ctx.lineWidth = emD * 3;
 
         let shield = ctx.createRadialGradient(
             0, 0, player.r - ctx.lineWidth / 2,
             0, 0, player.r + ctx.lineWidth / 2
         );
-        
-        
         shield.addColorStop(0, 'rgba(0, 0, 0, 0)');
-        shield.addColorStop(0.5, 'rgba(255, 0, 0, 1)');
-        shield.addColorStop(1, 'rgba(200, 0, 0, 0.1)');
-        
-        
-
+        shield.addColorStop(0.5, 'rgba(200, 0, 50, 1)');
+        shield.addColorStop(0.8, 'rgba(200, 0, 50, 1)');
+//        shield.addColorStop(0.9, 'rgba(255, 255, 255, 1)');
+        shield.addColorStop(1, 'rgba(200, 0, 50, 0)');
 
         for (let i = 0; i < 150; i++) {
             ctx.save();
             ctx.translate(-3, -3);
-
-
-
             ctx.fillStyle = `rgba(${randomInt(0, 255)},
             ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`;
-            
-            
-
-
             let x = randomInt(-player.r, player.r);
             let y = randomInt(-player.r, 0);
             let r = sqrt(pow(x, 2) + pow(y, 2));
-            if (player.r <= r) {;
-                x = y = player.r;
+            if (player.r <= r) {
+                x = 0;
+                y = -player.r / 2;
             };
             ctx.fillRect(x, y, 6, 6);
             ctx.restore();
         };
 
-//        if (player.frame % 5 == 0) {
-//            ctx.fillStyle = `rgba(${randomInt(200, 255)}, 0, 0, 0.5)`;
-//            for (let i = 0; i < 150; i++) {
-//                ctx.save();
-//                let x = randomInt(-player.r, player.r);
-//                let y = randomInt(-player.r, 0);
-//                let r = sqrt(pow(x, 2) + pow(y, 2));
-//                if (player.r <= r) {;
-//                    x = y = player.r;
-//                };
-//                ctx.fillRect(x, y, 6, 6);
-//                ctx.restore();
-//            };
-//        };
         ctx.strokeStyle = shield;
-        if (now.getMilliseconds() % 5 == 0) ctx.stroke();
-        
-        
+        if (player.frame % 4 == 0) ctx.stroke();
+
         ctx.restore();
-        
-//        if (player.frame % 5 == 0) {
-//            ctx.save();
-//            ctx.fillStyle = 'red';
-//            ctx.arc(0, 0, player.r, 0, Math.PI, true);
-//            ctx.fill();
-//            ctx.restore();
-//        }
-//        let timePassed = new Date(time);
-//        if (timePassed.getSeconds() % 2 == 0) {
-//            ctx.save();
-//            ctx.fillStyle = 'red';
-//            ctx.arc(0, 0, player.r, 0, Math.PI, true);
-//            ctx.fill();
-//            ctx.restore();
-//        }
-
-
     }
-
-
-
-
     ctx.fill();
     ctx.restore();
 
@@ -458,12 +427,46 @@ function game(time) {
 
 
     ctx.save(); // отображение жизней
-    ctx.fillStyle = '#f00';
+    ctx.fillStyle = 'rgba(200, 0, 50, 1)';
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     for (let i = 0; i < player.lives; i++) {
         ctx.save();
-        ctx.translate(10 + i * (40 + 10), 10);
-        ctx.fillRect(0, 0, 40, 40);
+        ctx.translate(1.5 * emD + i * 7 * emD, 1.5 * emD);
+
+        let heart = ctx.createRadialGradient(
+            4.5 * emD, 1 * emD, 0.1 * emD,
+            3 * emD, 3 * emD, 6 * emD);
+        heart.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        heart.addColorStop(0.1, 'rgba(200, 0, 50, 1)');
+        heart.addColorStop(0.7, 'rgba(200, 0, 150, 0.8)');
+        heart.addColorStop(1, 'rgba(200, 0, 50, 0.8)');
+        ctx.fillStyle = heart;
+    
+        if (player.redShieldBlocked && i == player.lives - 1) {
+            ctx.translate(randomInt(-2, 2), randomInt(-2, 2));
+        };
+        ctx.beginPath();
+        ctx.arc(3 * emD, 3 * emD, 3 * emD, -Math.PI / 6, -5 * Math.PI / 6, true);
+        ctx.lineTo(3 * emD, 4 * emD)
+        ctx.closePath()
+        ctx.clip();
+
+        ctx.fillRect(0, 0, 6 * emD, 6 * emD);
+        
+        
+        if (player.redShieldBlocked && i == player.lives - 1) {
+            for (let i = 0; i < 300; i++) {
+                ctx.save();
+                ctx.fillStyle = `rgba(${randomInt(0, 255)},
+                ${0}, ${randomInt(0, 50)}, 0.2)`;
+        
+                let x = randomInt(0, 6*emD);
+                let y = randomInt(0, 6*emD);
+                ctx.fillRect(x, y, 6, 6);
+                ctx.restore();
+            };
+        };
+
         ctx.restore();
     };
     ctx.restore();
@@ -471,11 +474,11 @@ function game(time) {
     ctx.restore();
 
     ctx.save(); // очки
-    ctx.font = '700 54px sans-serif';
+    ctx.font = `1000 ${5*emD}px sans-serif`;
     ctx.fillStyle = '#FFF';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'top';
-    ctx.fillText(`${player.score}`, canvas.width - 10, 10);
+    ctx.fillText(`${player.score}`, canvas.width - 1.5 * emD, 1.5 * emD);
     ctx.restore();
 
     if (player.lives <= 0) {

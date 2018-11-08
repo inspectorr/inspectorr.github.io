@@ -62,12 +62,27 @@ class Player {
 //    }
 
     redShieldBlock(ms) {
+        if (this.block) {
+            clearTimeout(this.block);
+        };
         this.frame = 0;
         this.redShieldBlocked = true;
         this.block = setTimeout(() => {
             this.redShieldBlocked = false;
             this.frame = 0;
         }, ms);
+    }
+    
+    injure() {
+        if (this.injTimeout) {
+            this.lives--;
+            clearTimeout(this.injTimeout);
+        };
+        
+        this.injTimeout = setTimeout(() => {
+            this.lives--;
+            this.injTimeout = undefined;
+        }, 1200);
     }
 }
 

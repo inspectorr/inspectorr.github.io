@@ -59,8 +59,9 @@ document.addEventListener('touchstart', function (event) {
         dX = 0;
         lastposY = event.targetTouches[0].clientY;
         dY = 0;
+        move(event);
     };
-    move(event);
+    
 }, false);
 
 document.addEventListener('touchmove', function (event) {
