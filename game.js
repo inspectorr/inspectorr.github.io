@@ -339,6 +339,7 @@ function game(time) {
     ctx.beginPath();
     ctx.arc(0, 0, player.r, 0, -Math.PI, true);
     ctx.closePath();
+    ctx.clip(); /////////////////////////////////////////
 
     let cabRadGrad = ctx.createRadialGradient(0, -player.r / 2, 7, 0, 0, player.r);
     let blink = Math.min(0.45 + Math.random(), 0.75);
@@ -347,25 +348,25 @@ function game(time) {
     cabRadGrad.addColorStop(1, 'rgba(0, 150, 200, 0.7)');
     ctx.fillStyle = cabRadGrad;
 
-    // блок 
+    // блок помехи
     if (player.redShieldBlocked) {
         player.frame++;
         ctx.save();
         ctx.beginPath();
         ctx.arc(0, 0, player.r, 0, -Math.PI, true);
-        ctx.lineWidth = emD * 3;
+//        ctx.lineWidth = emD * 3;
+//
+//        let shield = ctx.createRadialGradient(
+//            0, 0, player.r - ctx.lineWidth / 2,
+//            0, 0, player.r + ctx.lineWidth / 2
+//        );
+//        shield.addColorStop(0, 'rgba(0, 0, 0, 0)');
+//        shield.addColorStop(0.5, 'rgba(200, 0, 50, 1)');
+//        shield.addColorStop(0.8, 'rgba(200, 0, 50, 1)');
+//        //        shield.addColorStop(0.9, 'rgba(255, 255, 255, 1)');
+//        shield.addColorStop(1, 'rgba(200, 0, 50, 0)');
 
-        let shield = ctx.createRadialGradient(
-            0, 0, player.r - ctx.lineWidth / 2,
-            0, 0, player.r + ctx.lineWidth / 2
-        );
-        shield.addColorStop(0, 'rgba(0, 0, 0, 0)');
-        shield.addColorStop(0.5, 'rgba(200, 0, 50, 1)');
-        shield.addColorStop(0.8, 'rgba(200, 0, 50, 1)');
-//        shield.addColorStop(0.9, 'rgba(255, 255, 255, 1)');
-        shield.addColorStop(1, 'rgba(200, 0, 50, 0)');
-
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 100; i++) {
             ctx.save();
             ctx.translate(-3, -3);
             ctx.fillStyle = `rgba(${randomInt(0, 255)},
@@ -377,17 +378,41 @@ function game(time) {
                 x = 0;
                 y = -player.r / 2;
             };
-            ctx.fillRect(x, y, 6, 6);
+            ctx.fillRect(x, y, 8, 8);
             ctx.restore();
         };
+
+        //        ctx.strokeStyle = shield;
+        //        if ((player.frame-1)%10 == 0) ctx.stroke();
+
+        ctx.restore();
+    }
+    ctx.fill();
+    ctx.restore();
+
+    // блок(щит)
+    if (player.redShieldBlocked) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(0, 0, player.r, 0, -Math.PI, true);
+        ctx.lineWidth = emD * 3;
+
+        let shield = ctx.createRadialGradient(
+            0, 0, player.r - ctx.lineWidth / 2,
+            0, 0, player.r + ctx.lineWidth / 2
+        );
+    
+        shield.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        shield.addColorStop(0.5, 'rgba(200, 0, 50, 1)');
+        shield.addColorStop(0.8, 'rgba(200, 0, 50, 1)');
+        //        shield.addColorStop(0.9, 'rgba(255, 255, 255, 1)');
+        shield.addColorStop(1, 'rgba(200, 0, 50, 0)');
 
         ctx.strokeStyle = shield;
         if ((player.frame-1)%10 == 0) ctx.stroke();
 
         ctx.restore();
     }
-    ctx.fill();
-    ctx.restore();
 
     // трещины
     if (player.lives < 3) {
@@ -441,7 +466,7 @@ function game(time) {
         heart.addColorStop(0.7, 'rgba(200, 0, 150, 0.8)');
         heart.addColorStop(1, 'rgba(200, 0, 50, 0.8)');
         ctx.fillStyle = heart;
-    
+
         if (player.redShieldBlocked && i == player.lives - 1) {
             ctx.translate(randomInt(-2, 2), randomInt(-2, 2));
         };
@@ -452,26 +477,26 @@ function game(time) {
         ctx.clip();
 
         ctx.fillRect(0, 0, 6 * emD, 6 * emD);
-        
-        
+
+
         if (player.redShieldBlocked && i == player.lives - 1) {
-            for (let i = 0; i < 300; i++) {
+            for (let i = 0; i < 100; i++) {
                 ctx.save();
                 ctx.fillStyle = `rgba(${randomInt(100, 255)},
                 ${randomInt(0, 0)}, ${randomInt(0, 200)}, 0.8)`;
-                let x = randomInt(0, 6*emD);
-                let y = randomInt(0, 6*emD);
+                let x = randomInt(0, 6 * emD);
+                let y = randomInt(0, 6 * emD);
                 ctx.fillRect(x, y, 6, 6);
                 ctx.restore();
             };
-            
+
             ctx.save();
-            if ((player.frame-1) % 5 == 0) {
-                ctx.fillStyle = '#fff'; 
-                ctx.fillRect(0, 0, 6*emD, 6*emD);
+            if ((player.frame - 1) % 5 == 0) {
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, 6 * emD, 6 * emD);
             };
             ctx.restore();
-            
+
         };
 
         ctx.restore();
