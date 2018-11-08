@@ -382,7 +382,7 @@ function game(time) {
         };
 
         ctx.strokeStyle = shield;
-        if ((player.frame-5)%10 == 0) ctx.stroke();
+        if ((player.frame-1)%10 == 0) ctx.stroke();
 
         ctx.restore();
     }
@@ -431,7 +431,7 @@ function game(time) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     for (let i = 0; i < player.lives; i++) {
         ctx.save();
-        ctx.translate(1.5 * emD + i * 7 * emD, 1.5 * emD);
+        ctx.translate(1 * emD + i * 6 * emD, 1.5 * emD);
 
         let heart = ctx.createRadialGradient(
             4.5 * emD, 1 * emD, 0.1 * emD,
@@ -466,7 +466,7 @@ function game(time) {
             };
             
             ctx.save();
-            if (player.frame % 5 == 0) {
+            if ((player.frame-1) % 5 == 0) {
                 ctx.fillStyle = '#fff'; 
                 ctx.fillRect(0, 0, 6*emD, 6*emD);
             };
@@ -481,7 +481,7 @@ function game(time) {
     ctx.restore();
 
     ctx.save(); // очки
-    ctx.font = `1000 ${6*emD}px sans-serif`;
+    ctx.font = `700 ${5.5*emD}px sans-serif`;
     ctx.fillStyle = '#FFF';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'top';
