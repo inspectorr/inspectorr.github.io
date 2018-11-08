@@ -15,6 +15,6 @@ class Shot {
     }
 
     static get width() {
-        return 1.3*emD;
+        return 2*emD;
     }
 }

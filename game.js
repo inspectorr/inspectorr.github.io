@@ -1,4 +1,5 @@
 function game(time) {
+    let now = new Date(time);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -12,24 +13,7 @@ function game(time) {
     };
     ctx.restore();
 
-    // ё
-    for (let i = 0; i < currentShots.length; i++) {
-        let shot = currentShots[i];
-        ctx.save();
-        ctx.translate(shot.x, shot.y);
-        shot.y -= Shot.speed;
-        let laser = ctx.createLinearGradient(-0.625 * emD, 0, 0.625 * emD, 0);
-        laser.addColorStop(0, '#F00');
-        laser.addColorStop(0.2, '#FFF');
-        laser.addColorStop(0.8, '#FFF');
-        laser.addColorStop(1, '#F00');
-        ctx.fillStyle = laser;
-        ctx.fillRect(-Shot.width / 2, -Shot.height / 2, Shot.width, Shot.height);
-        ctx.restore();
-        // вылет за пределы
-        if (shot.y + Shot.height < 0) shot.out = true;
-    };
-
+    
     // астероиды
     for (let i = 0; i < currentAsteroids.length; i++) {
         let asteroid = currentAsteroids[i];
@@ -112,6 +96,8 @@ function game(time) {
 
         ctx.stroke();
 
+        
+        
         ctx.save(); // > бугорки
         ctx.lineWidth = 2;
         ctx.shadowBlur = 2;
@@ -167,7 +153,7 @@ function game(time) {
 
         // уничтожение лазером   
         for (let j = 0; j < currentShots.length; j++) {
-            let laserToAst = sqrt(pow(asteroid.x - currentShots[j].x, 2) + pow(asteroid.y - currentShots[j].y - Shot.height / 2, 2));
+            let laserToAst = sqrt(pow(asteroid.x - currentShots[j].x, 2) + pow(asteroid.y - currentShots[j].y, 2));
             laserToAst -= asteroid.r;
             if (laserToAst <= 0 && !asteroid.injured && !asteroid.shooted) {
                 currentShots[j].hit = true;
@@ -180,7 +166,7 @@ function game(time) {
         let playerToAst = sqrt(pow(asteroid.x - player.x, 2) + pow(asteroid.y - player.y, 2));
         playerToAst -= asteroid.r + player.r;
         if (playerToAst <= 0 && !asteroid.injured) {
-            player.redShieldBlock(700);
+            player.redShieldBlock(1200);
             player.lives--;
             asteroid.injured = true;
         };
@@ -219,7 +205,37 @@ function game(time) {
             asts.splice(i--, 1);
         }
     });
+    
+    // лазер
+    for (let i = 0; i < currentShots.length; i++) {
+        let shot = currentShots[i];
+        ctx.save();
+        ctx.translate(shot.x, shot.y - Shot.height / 2);
+        shot.y -= Shot.speed;
+        
+        let laser = ctx.createLinearGradient(-Shot.width/2, 0, Shot.width/2, 0);
+        
+        let sup = 0;
+        if (now.getMilliseconds() % 5 == 0) sup = Math.random()*0.25;
+        let flash = 0.25;
+//        if (now.getMilliseconds() % 5 == 0) {
+//            flash = Math.max(sup+0.05, Math.random()*0.3);
+//        }
+        
+        laser.addColorStop(sup, 'rgba(255, 0, 0, 0)');
+        laser.addColorStop(flash, 'rgba(255, 0, 0, 1)');
+        laser.addColorStop(flash, 'rgba(255, 255, 255, 1)');
+        laser.addColorStop(1-flash, 'rgba(255, 255, 255, 1)');
+        laser.addColorStop(1-flash, 'rgba(255, 0, 0, 1)');
+        laser.addColorStop(1-sup, 'rgba(255, 0, 0, 0)');
+        ctx.fillStyle = laser;
+        ctx.fillRect(-Shot.width / 2, 0, Shot.width, Shot.height);
+        ctx.restore();
+        // вылет за пределы
+        if (shot.y + Shot.height < 0) shot.out = true;
+    };
 
+    
     currentShots.forEach(function (shot, i, shots) {
         if (shot.hit || shot.out) shots.splice(i--, 1);
     });
@@ -318,25 +334,37 @@ function game(time) {
 
     // блок 
     if (player.redShieldBlocked) {
+        player.frame++;
         ctx.save();
         ctx.beginPath();
         ctx.arc(0, 0, player.r, 0, -Math.PI, true);
-        ctx.lineWidth = 8;
+        ctx.lineWidth = emD*3;
 
         let shield = ctx.createRadialGradient(
             0, 0, player.r - ctx.lineWidth / 2,
-            0, 0, player.r + ctx.lineWidth * 2
+            0, 0, player.r + ctx.lineWidth / 2
         );
-        shield.addColorStop(0, 'rgba(150, 0, 222, 1)');
-        shield.addColorStop(0.4, 'rgba(255, 255, 255, 0.7)');
-        shield.addColorStop(0.8, `rgba(255, 255, 255, ${blink})`);
-        shield.addColorStop(1, `rgba(150, 0, 222, ${blink})`);
+        
+        
+        shield.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        shield.addColorStop(0.5, 'rgba(255, 0, 0, 1)');
+        shield.addColorStop(1, 'rgba(200, 0, 0, 0.1)');
+        
+        
+
 
         for (let i = 0; i < 150; i++) {
             ctx.save();
             ctx.translate(-3, -3);
+
+
+
             ctx.fillStyle = `rgba(${randomInt(0, 255)},
-            ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`
+            ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`;
+            
+            
+
+
             let x = randomInt(-player.r, player.r);
             let y = randomInt(-player.r, 0);
             let r = sqrt(pow(x, 2) + pow(y, 2));
@@ -346,49 +374,87 @@ function game(time) {
             ctx.fillRect(x, y, 6, 6);
             ctx.restore();
         };
+
+//        if (player.frame % 5 == 0) {
+//            ctx.fillStyle = `rgba(${randomInt(200, 255)}, 0, 0, 0.5)`;
+//            for (let i = 0; i < 150; i++) {
+//                ctx.save();
+//                let x = randomInt(-player.r, player.r);
+//                let y = randomInt(-player.r, 0);
+//                let r = sqrt(pow(x, 2) + pow(y, 2));
+//                if (player.r <= r) {;
+//                    x = y = player.r;
+//                };
+//                ctx.fillRect(x, y, 6, 6);
+//                ctx.restore();
+//            };
+//        };
         ctx.strokeStyle = shield;
-        ctx.stroke();
+        if (now.getMilliseconds() % 5 == 0) ctx.stroke();
+        
+        
         ctx.restore();
+        
+//        if (player.frame % 5 == 0) {
+//            ctx.save();
+//            ctx.fillStyle = 'red';
+//            ctx.arc(0, 0, player.r, 0, Math.PI, true);
+//            ctx.fill();
+//            ctx.restore();
+//        }
+//        let timePassed = new Date(time);
+//        if (timePassed.getSeconds() % 2 == 0) {
+//            ctx.save();
+//            ctx.fillStyle = 'red';
+//            ctx.arc(0, 0, player.r, 0, Math.PI, true);
+//            ctx.fill();
+//            ctx.restore();
+//        }
 
 
     }
 
-    
+
 
 
     ctx.fill();
     ctx.restore();
-    
-//    // здоровье < 3 (трещины)
-//    if (player.lives < 3) {
-//        ctx.save();
-//        ctx.beginPath();
-//        ctx.strokeStyle = '#ddd';
-//        let count = this.cracks;
-//        for (let i = 0; i < count; i++) {
-//            ctx.moveTo(player.outerCrackPts[i][0], player.outerCrackPts[i][1]);
-//            ctx.lineTo(player.midCrackPts[i][0], player.midCrackPts[i][1]);
-////            ctx.lineTo(player.bottomCrackPts[i][0], player.bottomCrackPts[i][1]);
-//        };
-////        for (let i = 0; i < count / 2; i++) {
-////             ctx.moveTo(player.midCrackPts[i][0], player.midCrackPts[i][1]);
-////             ctx.lineTo(player.bottomCrackPts[i][0], player.bottomCrackPts[i][1]);
-////        };
-//        ctx.stroke();
-//        player.midCrackPts.forEach((item, i, arr) => {
-//            let x = arr[i][0];
-//            let y = arr[i][1];
-//            ctx.fillStyle = 'red';
-//            ctx.fillRect(x, y, 1, 1);
-//        });
-//        player.outerCrackPts.forEach((item, i, arr) => {
-//            let x = arr[i][0];
-//            let y = arr[i][1];
-//            ctx.fillStyle = 'white';
-//            ctx.fillRect(x, y, 1, 1);
-//        });
-//        ctx.restore();
-//    }
+
+    // трещины
+    if (player.lives < 3) {
+
+    }
+
+    //    // здоровье < 3 (трещины)
+    //    if (player.lives < 3) {
+    //        ctx.save();
+    //        ctx.beginPath();
+    //        ctx.strokeStyle = '#ddd';
+    //        let count = this.cracks;
+    //        for (let i = 0; i < count; i++) {
+    //            ctx.moveTo(player.outerCrackPts[i][0], player.outerCrackPts[i][1]);
+    //            ctx.lineTo(player.midCrackPts[i][0], player.midCrackPts[i][1]);
+    ////            ctx.lineTo(player.bottomCrackPts[i][0], player.bottomCrackPts[i][1]);
+    //        };
+    ////        for (let i = 0; i < count / 2; i++) {
+    ////             ctx.moveTo(player.midCrackPts[i][0], player.midCrackPts[i][1]);
+    ////             ctx.lineTo(player.bottomCrackPts[i][0], player.bottomCrackPts[i][1]);
+    ////        };
+    //        ctx.stroke();
+    //        player.midCrackPts.forEach((item, i, arr) => {
+    //            let x = arr[i][0];
+    //            let y = arr[i][1];
+    //            ctx.fillStyle = 'red';
+    //            ctx.fillRect(x, y, 1, 1);
+    //        });
+    //        player.outerCrackPts.forEach((item, i, arr) => {
+    //            let x = arr[i][0];
+    //            let y = arr[i][1];
+    //            ctx.fillStyle = 'white';
+    //            ctx.fillRect(x, y, 1, 1);
+    //        });
+    //        ctx.restore();
+    //    }
 
 
     ctx.save(); // отображение жизней

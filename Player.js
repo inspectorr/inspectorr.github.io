@@ -62,8 +62,12 @@ class Player {
 //    }
 
     redShieldBlock(ms) {
+        this.frame = 0;
         this.redShieldBlocked = true;
-        this.block = setTimeout(() => this.redShieldBlocked = false, ms);
+        this.block = setTimeout(() => {
+            this.redShieldBlocked = false;
+            this.frame = 0;
+        }, ms);
     }
 }
 

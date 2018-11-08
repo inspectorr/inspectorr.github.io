@@ -26,7 +26,7 @@ canvas.style.marginLeft = -canvas.width / 2 + 'px';
 setInterval(() => console.log(`Aseroids: ${currentAsteroids.length}`), 1000);
 
 
-
+    
 
 
 // Игрок
