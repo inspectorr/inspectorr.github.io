@@ -1,0 +1,2 @@
+#canvas{z-index:0}#container{overflow:hidden;position:fixed;top:0;z-index:1000}button{position:relative;border:none;outline:none;cursor:pointer;overflow:hidden;background-color:transparent;background-repeat:no-repeat}button canvas{postion:absolute;top:0;left:0}#palette{position:relative;left:0}#bg{left:0}#bg,.slider__bg{z-index:1;position:fixed}.slider__bg{left:50%}.slider__line{position:relative;top:50%;left:0}.slider__thumb{position:relative;cursor:pointer;border-radius:7px}
+/*# sourceMappingURL=main.37dba701.chunk.css.map */

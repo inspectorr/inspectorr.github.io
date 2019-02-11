@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-touch-callout: none;
+}
+
+html, body {
+    overflow: hidden;
+}
+
+#root {
+    text-align: center;
+}
