@@ -21,6 +21,7 @@ function initMap() {
 
 function showInDocument(data) {
   return new Promise((resolve) => {
+    document.getElementById('data').textContent = "";
     data.forEach((item) => {
       const div = document.createElement('div');
       div.textContent = `${item.title}: ${item.values[2]}`;
