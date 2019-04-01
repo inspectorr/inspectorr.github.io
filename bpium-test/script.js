@@ -11,7 +11,7 @@ function initMap() {
   );
 
   getData()
-  .then((data) => showInBody(data))
+  .then((data) => showInDocument(data))
   .then((data) => drawOnMap(map, data))
   .then((firstPlace) => {
     map.panTo(firstPlace);
@@ -19,12 +19,12 @@ function initMap() {
 
 }
 
-function showInBody(data) {
+function showInDocument(data) {
   return new Promise((resolve) => {
     data.forEach((item) => {
       const div = document.createElement('div');
       div.textContent = `${item.title}: ${item.values[2]}`;
-      document.body.append(div);
+      document.getElementById('data').append(div);
     });
     resolve(data);
   });
