@@ -1,15 +1,30 @@
 {
   "files": {
-    "main.css": "./static/css/main.86102797.chunk.css",
-    "main.js": "./static/js/main.9ea489b3.chunk.js",
-    "main.js.map": "./static/js/main.9ea489b3.chunk.js.map",
+    "main.css": "./static/css/main.21e7ae48.chunk.css",
+    "main.js": "./static/js/main.796853de.chunk.js",
+    "main.js.map": "./static/js/main.796853de.chunk.js.map",
     "runtime~main.js": "./static/js/runtime~main.2c977d9b.js",
     "runtime~main.js.map": "./static/js/runtime~main.2c977d9b.js.map",
-    "static/js/2.025f70b7.chunk.js": "./static/js/2.025f70b7.chunk.js",
-    "static/js/2.025f70b7.chunk.js.map": "./static/js/2.025f70b7.chunk.js.map",
+    "static/css/2.d4b275d9.chunk.css": "./static/css/2.d4b275d9.chunk.css",
+    "static/js/2.b234ada9.chunk.js": "./static/js/2.b234ada9.chunk.js",
+    "static/js/2.b234ada9.chunk.js.map": "./static/js/2.b234ada9.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.1164bff5aa72902e2aebbd694f72f8ba.js": "./precache-manifest.1164bff5aa72902e2aebbd694f72f8ba.js",
+    "precache-manifest.bc976b53b7fed1c3ec845426d8740de0.js": "./precache-manifest.bc976b53b7fed1c3ec845426d8740de0.js",
     "service-worker.js": "./service-worker.js",
-    "static/css/main.86102797.chunk.css.map": "./static/css/main.86102797.chunk.css.map"
+    "static/css/2.d4b275d9.chunk.css.map": "./static/css/2.d4b275d9.chunk.css.map",
+    "static/css/main.21e7ae48.chunk.css.map": "./static/css/main.21e7ae48.chunk.css.map",
+    "static/media/N.png": "./static/media/N.438675d2.png",
+    "static/media/a0deg.png": "./static/media/a0deg.a9597713.png",
+    "static/media/a2deg.png": "./static/media/a2deg.6930b2f2.png",
+    "static/media/tetaX0.png": "./static/media/tetaX0.fa7604e8.png",
+    "static/media/tetaX2.png": "./static/media/tetaX2.3de5372c.png",
+    "static/media/tetaY1.png": "./static/media/tetaY1.44fe09d6.png",
+    "static/media/tetaY1h.png": "./static/media/tetaY1h.10a53ae1.png",
+    "static/media/tetaY2.png": "./static/media/tetaY2.5875b53c.png",
+    "static/media/x0.png": "./static/media/x0.96156f2e.png",
+    "static/media/x2.png": "./static/media/x2.27627744.png",
+    "static/media/y1.png": "./static/media/y1.e8291708.png",
+    "static/media/y1h.png": "./static/media/y1h.111aca16.png",
+    "static/media/y2.png": "./static/media/y2.c220086a.png"
   }
 }
