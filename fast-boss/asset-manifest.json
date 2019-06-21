@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.2c50feb0.chunk.css",
-    "main.js": "/static/js/main.bb4c8368.chunk.js",
-    "main.js.map": "/static/js/main.bb4c8368.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.c5541365.js",
-    "runtime~main.js.map": "/static/js/runtime~main.c5541365.js.map",
-    "static/js/2.d625b8d6.chunk.js": "/static/js/2.d625b8d6.chunk.js",
-    "static/js/2.d625b8d6.chunk.js.map": "/static/js/2.d625b8d6.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.0f6449cea0407594a410c441115b0b4f.js": "/precache-manifest.0f6449cea0407594a410c441115b0b4f.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.2c50feb0.chunk.css.map": "/static/css/main.2c50feb0.chunk.css.map",
-    "static/media/style.module.css": "/static/media/bg.2868f795.png",
-    "static/media/logo.png": "/static/media/logo.12fc53b1.png"
+    "main.css": "/fast-boss/static/css/main.84d8d43f.chunk.css",
+    "main.js": "/fast-boss/static/js/main.bb4c8368.chunk.js",
+    "main.js.map": "/fast-boss/static/js/main.bb4c8368.chunk.js.map",
+    "runtime~main.js": "/fast-boss/static/js/runtime~main.4c4910f7.js",
+    "runtime~main.js.map": "/fast-boss/static/js/runtime~main.4c4910f7.js.map",
+    "static/js/2.2b8e5208.chunk.js": "/fast-boss/static/js/2.2b8e5208.chunk.js",
+    "static/js/2.2b8e5208.chunk.js.map": "/fast-boss/static/js/2.2b8e5208.chunk.js.map",
+    "index.html": "/fast-boss/index.html",
+    "precache-manifest.ab985e37a4e5e9f78e36b4f1c992fa0d.js": "/fast-boss/precache-manifest.ab985e37a4e5e9f78e36b4f1c992fa0d.js",
+    "service-worker.js": "/fast-boss/service-worker.js",
+    "static/css/main.84d8d43f.chunk.css.map": "/fast-boss/static/css/main.84d8d43f.chunk.css.map",
+    "static/media/style.module.css": "/fast-boss/static/media/bg.2868f795.png",
+    "static/media/logo.png": "/fast-boss/static/media/logo.12fc53b1.png"
   }
 }
