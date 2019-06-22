@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "843fe336c0a4d6577a69eeb98b93cf36",
+    "revision": "0efd159252064f7a71c8598cac37c45f",
     "url": "/fast-boss/index.html"
   },
   {
-    "revision": "52fff14ea3176ac5891b",
-    "url": "/fast-boss/static/css/main.84d8d43f.chunk.css"
+    "revision": "1a723e13b172f3e2614c",
+    "url": "/fast-boss/static/css/main.5ff2fc70.chunk.css"
   },
   {
-    "revision": "a1a4bab7e7871ec5e84b",
-    "url": "/fast-boss/static/js/2.95aa38b3.chunk.js"
+    "revision": "ef1e281c265d0aa16266",
+    "url": "/fast-boss/static/js/2.6cf77a81.chunk.js"
   },
   {
-    "revision": "52fff14ea3176ac5891b",
-    "url": "/fast-boss/static/js/main.59ca4cce.chunk.js"
+    "revision": "1a723e13b172f3e2614c",
+    "url": "/fast-boss/static/js/main.61233207.chunk.js"
   },
   {
     "revision": "82dd68e249569fa76e8e",
@@ -26,5 +26,9 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "12fc53b1f8b9990985ac94b69e4c957d",
     "url": "/fast-boss/static/media/logo.12fc53b1.png"
+  },
+  {
+    "revision": "fac0c2cb19b0e2e0138674d279878f6e",
+    "url": "/fast-boss/static/media/logo_sm.fac0c2cb.png"
   }
 ]);
