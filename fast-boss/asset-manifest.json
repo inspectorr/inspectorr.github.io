@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/fast-boss/static/css/main.58ec4fd0.chunk.css",
-    "main.js": "/fast-boss/static/js/main.9c97a4d4.chunk.js",
-    "main.js.map": "/fast-boss/static/js/main.9c97a4d4.chunk.js.map",
+    "main.css": "/fast-boss/static/css/main.de39ccab.chunk.css",
+    "main.js": "/fast-boss/static/js/main.573a9fd6.chunk.js",
+    "main.js.map": "/fast-boss/static/js/main.573a9fd6.chunk.js.map",
     "runtime~main.js": "/fast-boss/static/js/runtime~main.4c4910f7.js",
     "runtime~main.js.map": "/fast-boss/static/js/runtime~main.4c4910f7.js.map",
-    "static/js/2.6cf77a81.chunk.js": "/fast-boss/static/js/2.6cf77a81.chunk.js",
-    "static/js/2.6cf77a81.chunk.js.map": "/fast-boss/static/js/2.6cf77a81.chunk.js.map",
+    "static/js/2.0ccb16ed.chunk.js": "/fast-boss/static/js/2.0ccb16ed.chunk.js",
+    "static/js/2.0ccb16ed.chunk.js.map": "/fast-boss/static/js/2.0ccb16ed.chunk.js.map",
     "index.html": "/fast-boss/index.html",
-    "precache-manifest.1857894be8daa64843dcba90c2329467.js": "/fast-boss/precache-manifest.1857894be8daa64843dcba90c2329467.js",
+    "precache-manifest.364263a8f2486e987c24bf1665058f41.js": "/fast-boss/precache-manifest.364263a8f2486e987c24bf1665058f41.js",
     "service-worker.js": "/fast-boss/service-worker.js",
-    "static/css/main.58ec4fd0.chunk.css.map": "/fast-boss/static/css/main.58ec4fd0.chunk.css.map",
+    "static/css/main.de39ccab.chunk.css.map": "/fast-boss/static/css/main.de39ccab.chunk.css.map",
     "static/media/style.module.css": "/fast-boss/static/media/bg.2868f795.png",
     "static/media/logo.png": "/fast-boss/static/media/logo.12fc53b1.png",
     "static/media/logo_sm.png": "/fast-boss/static/media/logo_sm.fac0c2cb.png"
