@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/fast-boss/precache-manifest.9d77e3c0d67ce9a51275a901cdf4c414.js"
+  "/fast-boss/precache-manifest.1640fbe7d62b50cc9406383aaf36c7e9.js"
 );
 
 self.addEventListener('message', (event) => {
