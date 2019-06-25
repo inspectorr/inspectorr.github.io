@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6ad2bba92a0c1bafd1d9747db399cd4e",
+    "revision": "fd23a3518a209695039747c9dd02c49c",
     "url": "/fast-boss/index.html"
   },
   {
-    "revision": "aa08055d9a5d321cfbb1",
+    "revision": "39f0070b446bb3a6d0f3",
     "url": "/fast-boss/static/css/main.e3ae2053.chunk.css"
   },
   {
-    "revision": "02dfb555978cecf73bd1",
-    "url": "/fast-boss/static/js/2.7c5820f4.chunk.js"
+    "revision": "19ee92e63a2af89f5b98",
+    "url": "/fast-boss/static/js/2.1e450e20.chunk.js"
   },
   {
-    "revision": "aa08055d9a5d321cfbb1",
-    "url": "/fast-boss/static/js/main.f7f12ef7.chunk.js"
+    "revision": "39f0070b446bb3a6d0f3",
+    "url": "/fast-boss/static/js/main.969903b5.chunk.js"
   },
   {
     "revision": "82dd68e249569fa76e8e",
