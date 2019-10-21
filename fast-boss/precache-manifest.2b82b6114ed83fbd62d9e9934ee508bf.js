@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e746ffe79dfcf2eae284d7a81cc22a0b",
+    "revision": "46ea23523503f538ad8e89ef2dd37125",
     "url": "/fast-boss/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/fast-boss/static/css/2.44a5c8d7.chunk.css"
   },
   {
-    "revision": "4effbd4d0adfc2d5d7f0",
+    "revision": "24bf8fa2435910eeaf36",
     "url": "/fast-boss/static/css/main.9a3de97a.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/fast-boss/static/js/2.d7364527.chunk.js"
   },
   {
-    "revision": "4effbd4d0adfc2d5d7f0",
-    "url": "/fast-boss/static/js/main.5c1d5733.chunk.js"
+    "revision": "24bf8fa2435910eeaf36",
+    "url": "/fast-boss/static/js/main.f63bd4f0.chunk.js"
   },
   {
     "revision": "82dd68e249569fa76e8e",

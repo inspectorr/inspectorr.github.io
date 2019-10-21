@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/fast-boss/static/css/main.9a3de97a.chunk.css",
-    "main.js": "/fast-boss/static/js/main.5c1d5733.chunk.js",
-    "main.js.map": "/fast-boss/static/js/main.5c1d5733.chunk.js.map",
+    "main.js": "/fast-boss/static/js/main.f63bd4f0.chunk.js",
+    "main.js.map": "/fast-boss/static/js/main.f63bd4f0.chunk.js.map",
     "runtime~main.js": "/fast-boss/static/js/runtime~main.4c4910f7.js",
     "runtime~main.js.map": "/fast-boss/static/js/runtime~main.4c4910f7.js.map",
     "static/css/2.44a5c8d7.chunk.css": "/fast-boss/static/css/2.44a5c8d7.chunk.css",
     "static/js/2.d7364527.chunk.js": "/fast-boss/static/js/2.d7364527.chunk.js",
     "static/js/2.d7364527.chunk.js.map": "/fast-boss/static/js/2.d7364527.chunk.js.map",
     "index.html": "/fast-boss/index.html",
-    "precache-manifest.dab6983eb698b518cc765e8adc25ddb4.js": "/fast-boss/precache-manifest.dab6983eb698b518cc765e8adc25ddb4.js",
+    "precache-manifest.2b82b6114ed83fbd62d9e9934ee508bf.js": "/fast-boss/precache-manifest.2b82b6114ed83fbd62d9e9934ee508bf.js",
     "service-worker.js": "/fast-boss/service-worker.js",
     "static/css/2.44a5c8d7.chunk.css.map": "/fast-boss/static/css/2.44a5c8d7.chunk.css.map",
     "static/css/main.9a3de97a.chunk.css.map": "/fast-boss/static/css/main.9a3de97a.chunk.css.map",
