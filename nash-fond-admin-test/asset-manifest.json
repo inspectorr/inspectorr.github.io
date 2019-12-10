@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/nash-fond-admin-test/static/css/main.41c711c9.chunk.css",
+    "main.js": "/nash-fond-admin-test/static/js/main.86b4b3db.chunk.js",
+    "main.js.map": "/nash-fond-admin-test/static/js/main.86b4b3db.chunk.js.map",
+    "runtime-main.js": "/nash-fond-admin-test/static/js/runtime-main.8cee7c2b.js",
+    "runtime-main.js.map": "/nash-fond-admin-test/static/js/runtime-main.8cee7c2b.js.map",
+    "static/js/2.77c51c9c.chunk.js": "/nash-fond-admin-test/static/js/2.77c51c9c.chunk.js",
+    "static/js/2.77c51c9c.chunk.js.map": "/nash-fond-admin-test/static/js/2.77c51c9c.chunk.js.map",
+    "index.html": "/nash-fond-admin-test/index.html",
+    "precache-manifest.caf6beaede01dd5bad113d4c2301f435.js": "/nash-fond-admin-test/precache-manifest.caf6beaede01dd5bad113d4c2301f435.js",
+    "service-worker.js": "/nash-fond-admin-test/service-worker.js",
+    "static/css/main.41c711c9.chunk.css.map": "/nash-fond-admin-test/static/css/main.41c711c9.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8cee7c2b.js",
+    "static/js/2.77c51c9c.chunk.js",
+    "static/css/main.41c711c9.chunk.css",
+    "static/js/main.86b4b3db.chunk.js"
+  ]
+}
