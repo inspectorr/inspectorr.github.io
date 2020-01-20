@@ -34,4 +34,8 @@ input:-webkit-autofill {
     -webkit-animation-fill-mode: both;
 }
 
+.ma {
+    margin: auto;
+}
+
 
