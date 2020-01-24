@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/nash-fond-test/static/css/main.daec94bf.chunk.css",
-    "main.js": "/nash-fond-test/static/js/main.e35b9d80.chunk.js",
-    "main.js.map": "/nash-fond-test/static/js/main.e35b9d80.chunk.js.map",
+    "main.css": "/nash-fond-test/static/css/main.2f3774ae.chunk.css",
+    "main.js": "/nash-fond-test/static/js/main.60e974aa.chunk.js",
+    "main.js.map": "/nash-fond-test/static/js/main.60e974aa.chunk.js.map",
     "runtime~main.js": "/nash-fond-test/static/js/runtime~main.6b7060d7.js",
     "runtime~main.js.map": "/nash-fond-test/static/js/runtime~main.6b7060d7.js.map",
     "static/css/2.4ec584c5.chunk.css": "/nash-fond-test/static/css/2.4ec584c5.chunk.css",
-    "static/js/2.92350089.chunk.js": "/nash-fond-test/static/js/2.92350089.chunk.js",
-    "static/js/2.92350089.chunk.js.map": "/nash-fond-test/static/js/2.92350089.chunk.js.map",
+    "static/js/2.2e1d3a39.chunk.js": "/nash-fond-test/static/js/2.2e1d3a39.chunk.js",
+    "static/js/2.2e1d3a39.chunk.js.map": "/nash-fond-test/static/js/2.2e1d3a39.chunk.js.map",
     "index.html": "/nash-fond-test/index.html",
-    "precache-manifest.0ee64f6e5e44e8286fda120d94355a65.js": "/nash-fond-test/precache-manifest.0ee64f6e5e44e8286fda120d94355a65.js",
+    "precache-manifest.5e5a371314b88eb432306c0899b26ab0.js": "/nash-fond-test/precache-manifest.5e5a371314b88eb432306c0899b26ab0.js",
     "service-worker.js": "/nash-fond-test/service-worker.js",
     "static/css/2.4ec584c5.chunk.css.map": "/nash-fond-test/static/css/2.4ec584c5.chunk.css.map",
-    "static/css/main.daec94bf.chunk.css.map": "/nash-fond-test/static/css/main.daec94bf.chunk.css.map",
+    "static/css/main.2f3774ae.chunk.css.map": "/nash-fond-test/static/css/main.2f3774ae.chunk.css.map",
     "static/media/1.png": "/nash-fond-test/static/media/1.bdd25c7c.png",
     "static/media/2.png": "/nash-fond-test/static/media/2.e8294db2.png",
     "static/media/3.png": "/nash-fond-test/static/media/3.96c85996.png",
@@ -52,7 +52,7 @@
     "static/media/reputation.png": "/nash-fond-test/static/media/reputation.213cbf03.png",
     "static/media/singapore.PNG": "/nash-fond-test/static/media/singapore.e2700387.PNG",
     "static/media/turkey.PNG": "/nash-fond-test/static/media/turkey.8355099f.PNG",
-    "static/media/Борьба_с_отмыванием_денег.pdf": "/nash-fond-test/static/media/Борьба_с_отмыванием_денег.18324836.pdf",
+    "static/media/Борьба_с_отмыванием_денег.pdf": "/nash-fond-test/static/media/Борьба_с_отмыванием_денег.d5051723.pdf",
     "static/media/ПОЛИТИКА_КОНФИДЕНЦИАЛЬНОСТИ.pdf": "/nash-fond-test/static/media/ПОЛИТИКА_КОНФИДЕНЦИАЛЬНОСТИ.0d5e6642.pdf"
   }
 }
